@@ -5,7 +5,6 @@ use		ieee.std_logic_arith.all;
 
 entity VGADisplayer is
     port(
-            address		:		  out	STD_LOGIC_VECTOR(13 DOWNTO 0);
             reset       :         in  STD_LOGIC;
             clk25       :		  out std_logic; 
             rgb		    :		  in RGBColor;
@@ -17,7 +16,7 @@ entity VGADisplayer is
         );
 end entity;
 
-architecture behavior of vga640480 is
+architecture behavior of VGADisplayer is
 
     signal r1,g1,b1   : std_logic_vector(2 downto 0);					
     signal hs1,vs1    : std_logic;				

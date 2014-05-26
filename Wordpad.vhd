@@ -55,23 +55,24 @@ architecture arch of MasterController is
 
     component TextDisplayer is
         port(
-            rst         : in     std_logic;
-			--text information
-            text        : buffer TextArea;
-			--mouse
-            left_button   : in    std_logic;
-            right_button  : in    std_logic;
-            middle_button : in    std_logic;
-            mousex        : buffer std_logic_vector(9 downto 0);
-            mousey        : buffer std_logic_vector(9 downto 0);
-            error_no_ack  : in    std_logic;
-			--vga out
-	        hs : out std_logic;
-	        vs : out std_logic;
-
-	        VGA_B : out std_logic_vector(2 downto 0);
-	        VGA_G : out std_logic_vector(2 downto 0);
-	        VGA_R : out std_logic_vector(2 downto 0)			
+                clk_100       : in     std_logic;
+                reset           : in     std_logic;
+        --text information
+                txt          : buffer TextArea;
+        --mouse
+                left_button   : in     std_logic;
+                right_button  : in     std_logic;
+                middle_button : in     std_logic;
+                mousex        : in std_logic_vector(9 downto 0);
+                mousey        : in std_logic_vector(8 downto 0);
+                error_no_ack  : in     std_logic;
+        --display output
+                x_pos       :           in std_logic_vector(9 downto 0);		--X坐标
+                y_pos       : in std_logic_vector(8 downto 0);		--Y坐标
+                rgb : out RGBColor;
+        --rom interaction
+                address : out std_logic_vector(15 downto 0);
+                bitmap : in std_logic_vector(63 downto 0);		
             );
     end component;
 

@@ -30,4 +30,25 @@ package GlobalDefines is
 	constant COLOR_PURPLE	:	RGBColor	:=	"101";
 	constant COLOR_YELLOW	:	RGBColor	:=	"110";
 	constant COLOR_WHITE	:	RGBColor	:=	"111";
+
+    type CharSizeType is (Small, Middle, Big, Huge);
+    constant SizeToPixel is array (CharSizeType range Small to Huge) of Integer := (10, 14, 18, 22);
+    type FontType is (Font1, Font2, Font3, Font4);
+
+    type Char is record
+        code : std_logic_vector(7 downto 0);
+        size : CharSizeType;
+        font : FontType;
+        color : RGBColor;
+    end record;
+
+    type CharPos is std_logic_vector(7 downto 0);
+
+    constant MAX_TEXT_LEN : Integer := 256;
+    type TextArea is record
+        length : CharPos;
+        str : array (0 to MAX_TEXT_LEN-1) of Char;
+    end record;
+
+	function memAddr(ch : Char, y : std_logic_vector(8 downto 0)) return std_logic_vector(15 downto 0);
 end package;
