@@ -15,7 +15,7 @@ architecture structural of Controller is
     signal tmp_char : Char;
     signal tmp_pos : CharPos;
 begin
-    process(clk,rst)	--行区间像素数（含消隐区）
+    process(clk,rst)
     begin
         if rst='0' then
         elsif clk'event and clk='1' then
