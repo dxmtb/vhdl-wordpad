@@ -1,81 +1,73 @@
 library ieee;
-use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use ieee.std_logic_1164.all;
+use work.GlobalDefines.all;
 
 entity TextDisplayer is
     port (
         clk_100       : in     std_logic;
-        reset           : in     std_logic;
+        reset         : in     std_logic;
         --text information
-        txt          : buffer TextArea;
+        txt           : buffer TextArea;
+        cursor        : buffer CharPos;
         --mouse
         left_button   : in     std_logic;
         right_button  : in     std_logic;
         middle_button : in     std_logic;
-        mousex        : in std_logic_vector(9 downto 0);
-        mousey        : in std_logic_vector(8 downto 0);
+        mousex        : in     XCoordinate;
+        mousey        : in     YCoordinate;
         error_no_ack  : in     std_logic;
         --display output
-        x_pos       :           in std_logic_vector(9 downto 0);		--X坐标
-        y_pos       : in std_logic_vector(8 downto 0);		--Y坐标
-        rgb : out RGBColor;
-    --rom interaction
-        address : out std_logic_vector(15 downto 0);
-        bitmap : in std_logic_vector(63 downto 0);
-);
+        x_pos         : in     XCoordinate;
+        y_pos         : in     YCoordinate;
+        rgb           : out    RGBColor;
+        --rom interaction
+        address       : out    Pointer;
+        bitmap        : in     std_logic_vector(63 downto 0)
+        );
 end entity;  -- TextDisplayer
 
 architecture arch of TextDisplayer is
-    type State is (output, waiting);
-    signal state : State;
-    constant BOUNDARY: Integer := 100;
-    signal button : std_logic;
+    constant BOUNDARY : integer := 100;
+    signal   button   : std_logic;
+    signal   clk      : std_logic;
 
-    variable current_char, leftChar: CharPos;
-    variable low, high : std_logic_vector(8 downto 0);
-    variable left, right : std_logic_vector(9 downto 0);
-    signal col_mod : integer;
-    signal rgb_4bit : std_logic_vector(3 downto 0);
-    variable keep_char : std_logic;
+    signal current_char_pos, leftChar : CharPos;
+    signal current_char, next_char    : Char;
+    signal low, high, row             : YCoordinate;
+    signal left, right                : XCoordinate;
+    signal col_mod                    : integer;
+
+    constant VGA_HEIGHT : integer := 480;
+    constant VGA_WIDTH  : integer := 640;
 
 begin
-    button <= left_button or right_button or middle_button;
-    rgb <= rgb_4bit(3 downto 1);
-    col_mod <= x_pos mod 22;
-    process(clk_100,reset)
+    button       <= left_button or right_button or middle_button;
+    col_mod      <= x_pos mod 22;
+    clk          <= clk_100;
+    current_char <= txt.str(current_char_pos);
+    next_char    <= txt.str(current_char_pos+1);
+    process(clk, reset)
     begin
-        if reset='0' then
-            current_char <= (others => '1');
-            line_begin <= (others => '0');
-            low <= (others => '0');
-            high <= (others => '0');
-            left <= (others => '0');
-            right <= (others => '0');
-        elsif clk'event and clk='1' then
+        if reset = '0' then
+            current_char_pos <= MAX_TEXT_LEN-1;
+        elsif clk'event and clk = '1' then
             if y_pos = row then
-                if left <= x_pos and x_pos < right then
-                    rgb_4bit <= bitmap((x_pos-left)*4 to (x_pos-left+1)*4);
-                else
-                    current_char <= current_char + 1;
-                    if left + SizeToPixel(txt(current_char).size) >= 640 then
-                        current_char = leftChar;
-                        right <= 800;
-                    end if;
-                    if getWidth(txt, current_char) > high - low then
-                        high <= low + getWidth(txt, current_char);
-                    end if;
+                if x_pos >= right then  --and left + getWidth(txt(current_char+1)) <= VGA_WIDTH then
+                    left             <= right;
+                    right            <= left + getWidth(next_char);
+                    current_char_pos <= current_char_pos + 1;
                 end if;
             else
-                row <= y_pos; --assert y_pos = row + 1
-                left <= 0;
+                row   <= y_pos;         --assert y_pos = row + 1
+                left  <= 0;
                 right <= 0;
-
                 if y_pos < high then
-                    current_char <= leftChar - 1;
-                else --y_pos >= high new line of chars
-                    low <= high;
-                    high <= high;
-                    current_char <= current_char + 1;
+                    current_char_pos <= leftChar - 1;
+                else                    --y_pos >= high new line of chars
+                    low              <= high;
+                    current_char_pos <= current_char_pos + 1;
+                    leftChar         <= current_char_pos;
                 end if;
             end if;
         end if;
@@ -83,7 +75,29 @@ begin
 
     process(current_char)
     begin
-        address <= memAddr(txt.str(current_char), row_mod);
+        address <= memAddr(current_char, col_mod);
+    end process;
+
+    process(x_pos, bitmap, left)
+    begin
+        if y_pos < BOUNDARY then
+            rgb <= COLOR_BLUE;
+        elsif x_pos - left < getWidth(current_char) then
+            if bitmap(x_pos-left) = '0' then
+                rgb <= COLOR_WHITE;
+            else
+                rgb <= current_char.color;
+            end if;
+        else
+            rgb <= COLOR_WHITE;
+        end if;
+    end process;
+
+    process (current_char)
+    begin
+        if getWidth(current_char) > high - low then  --width is same as height
+            high <= low + getWidth(current_char);
+        end if;
     end process;
 
 end architecture;  -- arch
