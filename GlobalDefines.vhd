@@ -33,13 +33,13 @@ package GlobalDefines is
     type     CharSizeType is (Small, Middle, Big, Huge);
     type     CharSizeIndexedArray is array (CharSizeType range Small to Huge) of integer;
     constant SizeToPixel : CharSizeIndexedArray := (10, 14, 18, 22);
-    constant SizeShift : CharSizeIndexedArray := (0, 5120, 12288, 21504);
-    
+    constant SizeShift   : CharSizeIndexedArray := (0, 5120, 12288, 21504);
+
     type     FontType is (Font1, Font2, Font3, Font4);
-    type	 FontTypeIndexedArray is array (FontType range Font1 to Font4) of integer;
+    type     FontTypeIndexedArray is array (FontType range Font1 to Font4) of integer;
     constant FontShift : FontTypeIndexedArray := (0, 1, 3, 4);
-    
-    subtype  CharCode is integer range 0 to 127;
+
+    subtype CharCode is integer range 0 to 127;
 
     type Char is record
         code  : CharCode;
@@ -57,17 +57,17 @@ package GlobalDefines is
     end record;
 
     subtype Pointer is integer range 0 to 16383;
-    function memAddr(ch : Char; y : YCoordinate) return Pointer;
-	function getWidth(ch : Char) return XCoordinate;
+    function memAddr(ch  : Char; y : YCoordinate) return Pointer;
+    function getWidth(ch : Char) return XCoordinate;
 end package;
 
 package body GlobalDefines is
     function memAddr(ch : Char; y : YCoordinate) return Pointer is
     begin
-		return SizeShift(ch.size) + (FontShift(ch.font)*128+ch.code)*SizeToPixel(ch.size)+y;
+        return SizeShift(ch.size) + (FontShift(ch.font)*128+ch.code)*SizeToPixel(ch.size)+y;
     end function;
-	function getWidth(ch : Char) return XCoordinate is
-	begin 
-		return SizeToPixel(ch.size);
-	end function;
+    function getWidth(ch : Char) return XCoordinate is
+    begin
+        return SizeToPixel(ch.size);
+    end function;
 end GlobalDefines;

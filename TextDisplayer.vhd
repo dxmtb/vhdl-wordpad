@@ -22,8 +22,8 @@ entity TextDisplayer is
         y_pos         : in     YCoordinate;
         rgb           : out    RGBColor;
         --rom interaction
-        rom_address		: out STD_LOGIC_VECTOR (13 DOWNTO 0);
-		rom_data		: in STD_LOGIC_VECTOR (15 DOWNTO 0)
+        rom_address   : out    std_logic_vector (13 downto 0);
+        rom_data      : in     std_logic_vector (15 downto 0)
         );
 end entity;  -- TextDisplayer
 
@@ -34,8 +34,8 @@ architecture arch of TextDisplayer is
 
     signal current_char_pos, leftChar : CharPos;
     signal current_char, next_char    : Char;
-    signal U, D, row             : YCoordinate;
-    signal L, R                : XCoordinate;
+    signal U, D, row                  : YCoordinate;
+    signal L, R                       : XCoordinate;
     signal col_mod                    : integer;
 
     constant VGA_HEIGHT : integer := 480;
@@ -48,30 +48,30 @@ begin
     current_char <= txt.str(current_char_pos);
     next_char    <= txt.str(current_char_pos+1);
     process(clk, reset)
-    variable tmp_pos : CharPos;
+        variable tmp_pos : CharPos;
     begin
         if reset = '0' then
             current_char_pos <= MAX_TEXT_LEN-1;
-            leftChar <= 0;
-            row <= 0;
+            leftChar         <= 0;
+            row              <= 0;
         elsif clk'event and clk = '1' then
             if y_pos = row then
                 if x_pos >= R then  --and left + getWidth(txt(current_char+1)) <= VGA_WIDTH then
-                    L            <= R;
-                    R            <= L + getWidth(next_char);
+                    L                <= R;
+                    R                <= L + getWidth(next_char);
                     current_char_pos <= current_char_pos + 1;
                 end if;
             else
-                row   <= y_pos;         --assert y_pos = row + 1
-                L  <= 0;
-                R <= 0;
+                row <= y_pos;           --assert y_pos = row + 1
+                L   <= 0;
+                R   <= 0;
                 if y_pos < D then
                     current_char_pos <= leftChar - 1;
                 else                    --y_pos >= high new line of chars
-                    U <= D;
-                    tmp_pos := current_char_pos + 1;
+                    U                <= D;
+                    tmp_pos          := current_char_pos + 1;
                     current_char_pos <= tmp_pos;
-                    leftChar <= tmp_pos;
+                    leftChar         <= tmp_pos;
                 end if;
             end if;
         end if;

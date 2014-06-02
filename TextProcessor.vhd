@@ -5,10 +5,10 @@ use work.GlobalDefines.all;
 
 entity TextProcessor is
     port(
-        rst, clk                         : in     std_logic;
+        rst, clk                    : in     std_logic;
         txt                         : buffer TextArea;
-        keyboard_event, mouse_event : buffer  EventT;
-        cursor                      : buffer     CharPos
+        keyboard_event, mouse_event : buffer EventT;
+        cursor                      : buffer CharPos
         );
 end entity;
 
@@ -19,12 +19,12 @@ begin
     process(clk, rst)
     begin
         if rst = '0' then
-			txt.length <= 0;
+            txt.length <= 0;
         elsif clk'event and clk = '1' then
             case keyboard_event.e_type is
                 when INSERT_CHAR_AT_CURSOR =>
-                    tmp_pos               <= cursor;
-                    tmp_char.code         <= keyboard_event.args;
+                    tmp_pos       <= cursor;
+                    tmp_char.code <= keyboard_event.args;
                     for I in 1 to MAX_TEXT_LEN - 1 loop
                         if I > tmp_pos then
                             txt.str(I) <= txt.str(I-1);
