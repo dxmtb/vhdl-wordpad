@@ -10,7 +10,7 @@ package GlobalDefines is
         DELETE_AT_CURSOR
         );
     subtype ArgsType is integer range 0 to 255;
-    type    Event is record
+    type    EventT is record
         e_type : EventType;
         args   : ArgsType;
     end record;
@@ -33,8 +33,13 @@ package GlobalDefines is
     type     CharSizeType is (Small, Middle, Big, Huge);
     type     CharSizeIndexedArray is array (CharSizeType range Small to Huge) of integer;
     constant SizeToPixel : CharSizeIndexedArray := (10, 14, 18, 22);
+    constant SizeShift : CharSizeIndexedArray := (0, 5120, 12288, 21504);
+    
     type     FontType is (Font1, Font2, Font3, Font4);
-    subtype  CharCode is integer range 0 to 255;
+    type	 FontTypeIndexedArray is array (FontType range Font1 to Font4) of integer;
+    constant FontShift : FontTypeIndexedArray := (0, 1, 3, 4);
+    
+    subtype  CharCode is integer range 0 to 127;
 
     type Char is record
         code  : CharCode;
@@ -51,17 +56,15 @@ package GlobalDefines is
         str    : CharSeqT;
     end record;
 
-    subtype Pointer is std_logic_vector(15 downto 0);
+    subtype Pointer is integer range 0 to 16383;
     function memAddr(ch : Char; y : YCoordinate) return Pointer;
 	function getWidth(ch : Char) return XCoordinate;
 end package;
 
 package body GlobalDefines is
     function memAddr(ch : Char; y : YCoordinate) return Pointer is
-		variable ret : Pointer;
     begin
-		ret <= (others=>'0');
-		return ret;
+		return SizeShift(ch.size) + (FontShift(ch.font)*128+ch.code)*SizeToPixel(ch.size)+y;
     end function;
 	function getWidth(ch : Char) return XCoordinate is
 	begin 

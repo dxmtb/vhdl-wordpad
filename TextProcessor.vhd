@@ -7,7 +7,7 @@ entity TextProcessor is
     port(
         rst, clk                         : in     std_logic;
         txt                         : buffer TextArea;
-        keyboard_event, mouse_event : inout  Event;
+        keyboard_event, mouse_event : buffer  EventT;
         cursor                      : buffer     CharPos
         );
 end entity;
@@ -25,9 +25,9 @@ begin
                 when INSERT_CHAR_AT_CURSOR =>
                     tmp_pos               <= cursor;
                     tmp_char.code         <= keyboard_event.args;
-                    for I in 0 to MAX_TEXT_LEN - 1 loop
+                    for I in 1 to MAX_TEXT_LEN - 1 loop
                         if I > tmp_pos then
-                            txt.str(I+1) <= txt.str(I);
+                            txt.str(I) <= txt.str(I-1);
                         end if;
                     end loop;
                     txt.str(tmp_pos) <= tmp_char;
