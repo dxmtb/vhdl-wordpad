@@ -3,3 +3,5 @@
 !.gitignore
 !*.vhd
 !*.mif
+!font/
+!font/*
