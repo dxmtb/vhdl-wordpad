@@ -30,14 +30,14 @@ package GlobalDefines is
     constant COLOR_YELLOW : RGBColor := "110";
     constant COLOR_WHITE  : RGBColor := "111";
 
-    type     CharSizeType is (Small, Middle, Big, Huge);
-    type     CharSizeIndexedArray is array (CharSizeType range Small to Huge) of integer;
-    constant SizeToPixel : CharSizeIndexedArray := (10, 14, 18, 22);
-    constant SizeShift   : CharSizeIndexedArray := (0, 5120, 12288, 21504);
+    type     CharSizeType is (Small, Big);
+    type     CharSizeIndexedArray is array (CharSizeType range Small to Big) of integer;
+    constant SizeToPixel : CharSizeIndexedArray := (14, 16);
+    constant SizeShift   : CharSizeIndexedArray := (0, 3584);
 
-    type     FontType is (Font1, Font2, Font3, Font4);
-    type     FontTypeIndexedArray is array (FontType range Font1 to Font4) of integer;
-    constant FontShift : FontTypeIndexedArray := (0, 1, 3, 4);
+    type     FontType is (Font1, Font2);
+    type     FontTypeIndexedArray is array (FontType range Font1 to Font2) of integer;
+    constant FontShift : FontTypeIndexedArray := (0, 1);
 
     subtype CharCode is integer range 0 to 127;
 

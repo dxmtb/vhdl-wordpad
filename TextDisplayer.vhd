@@ -28,7 +28,7 @@ entity TextDisplayer is
 end entity;  -- TextDisplayer
 
 architecture arch of TextDisplayer is
-    constant BOUNDARY : integer := 100;
+    constant BOUND : integer := 100;
     signal   button   : std_logic;
     signal   clk      : std_logic;
 
@@ -36,17 +36,17 @@ architecture arch of TextDisplayer is
     signal current_char, next_char    : Char;
     signal U, D, row                  : YCoordinate;
     signal L, R                       : XCoordinate;
-    signal col_mod                    : integer;
+    signal first_char : CharPos := 0;
 
     constant VGA_HEIGHT : integer := 480;
     constant VGA_WIDTH  : integer := 640;
 
 begin
     button       <= left_button or right_button or middle_button;
-    col_mod      <= x_pos mod 22;
     clk          <= clk_100;
     current_char <= txt.str(current_char_pos);
     next_char    <= txt.str(current_char_pos+1);
+    R <= L + getWidth(current_char);
     process(clk, reset)
         variable tmp_pos : CharPos;
     begin
@@ -55,25 +55,32 @@ begin
             leftChar         <= 0;
             row              <= 0;
         elsif clk'event and clk = '1' then
-            if y_pos = row then
-                if x_pos >= R then  --and left + getWidth(txt(current_char+1)) <= VGA_WIDTH then
-                    L                <= R;
-                    R                <= L + getWidth(next_char);
-                    current_char_pos <= current_char_pos + 1;
-                end if;
-            else
-                row <= y_pos;           --assert y_pos = row + 1
-                L   <= 0;
-                R   <= 0;
-                if y_pos < D then
-                    current_char_pos <= leftChar - 1;
-                else                    --y_pos >= high new line of chars
-                    U                <= D;
-                    tmp_pos          := current_char_pos + 1;
-                    current_char_pos <= tmp_pos;
-                    leftChar         <= tmp_pos;
-                end if;
-            end if;
+			if y_pos >= BOUND then
+				if y_pos = BOUND and x_pos = 0 then
+					--init displayer
+					U <= BOUND;
+					row <= BOUND;
+					L <= 0;
+					current_char_pos <= first_char;
+					leftChar <= first_char;
+				elsif y_pos = row then
+					if L /= R and x_pos >= R then
+						L                <= R;
+						current_char_pos <= current_char_pos + 1;
+					end if;
+				else
+					row <= y_pos;           --assert y_pos = row + 1
+					L   <= 0;
+					if y_pos < D then
+						current_char_pos <= leftChar;
+					else                    --y_pos >= high new line of chars
+						U                <= D;
+						tmp_pos          := current_char_pos + 1;
+						current_char_pos <= tmp_pos;
+						leftChar         <= tmp_pos;
+					end if;				
+				end if;
+			end if;
         end if;
     end process;
 
@@ -84,7 +91,7 @@ begin
 
     process(x_pos, y_pos, rom_data, L)
     begin
-        if y_pos < BOUNDARY then
+        if y_pos < BOUND then
             rgb <= COLOR_BLUE;
         elsif x_pos - L < getWidth(current_char) then
             if rom_data(x_pos-L) = '0' then
@@ -96,7 +103,7 @@ begin
             rgb <= COLOR_WHITE;
         end if;
     end process;
-
+    
     process (current_char)
     begin
         if getWidth(current_char) > D - U then  --width is same as height
