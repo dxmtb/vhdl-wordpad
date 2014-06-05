@@ -22,7 +22,7 @@ entity Wordpad is
         VGA_R : out std_logic_vector(2 downto 0);
 
         debug0 : out CharCode;
-        error : out std_logic
+        error  : out std_logic
         ) ;
 end entity;  -- MasterController
 
@@ -51,7 +51,7 @@ architecture arch of Wordpad is
     component TextProcessor is
         port(
             rst, clk                    : in     std_logic;
-            txt                         : out TextArea;
+            txt                         : out    TextArea;
             keyboard_event, mouse_event : buffer EventT;
             cursor                      : buffer CharPos
             );
@@ -62,7 +62,7 @@ architecture arch of Wordpad is
             clk_100       : in     std_logic;
             reset         : in     std_logic;
             --text information
-            txt           : in TextArea;
+            txt           : in     TextArea;
             cursor        : buffer CharPos;
             --mouse
             left_button   : in     std_logic;
@@ -115,7 +115,7 @@ architecture arch of Wordpad is
     signal rgb                                                    : RGBColor;
 
 begin
-	error <= '1';
+    error  <= '1';
     mousex <= to_integer(unsigned(mousex_slv));
     mousey <= to_integer(unsigned(mousey_slv));
     m1 : KeyboardListener port map(

@@ -56,7 +56,7 @@ package GlobalDefines is
         str    : CharSeqT;
     end record;
 
-    subtype CharRomPtr is STD_LOGIC_VECTOR (12 DOWNTO 0);
+    subtype CharRomPtr is std_logic_vector (12 downto 0);
     function memAddr(ch  : Char; y : YCoordinate) return CharRomPtr;
     function getWidth(ch : Char) return XCoordinate;
 end package;

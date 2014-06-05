@@ -6,7 +6,7 @@ use work.GlobalDefines.all;
 entity TextProcessor is
     port(
         rst, clk                    : in     std_logic;
-        txt                         : out TextArea;
+        txt                         : out    TextArea;
         keyboard_event, mouse_event : buffer EventT;
         cursor                      : buffer CharPos
         );
@@ -20,15 +20,15 @@ begin
     begin
         if rst = '0' then
             txt.length <= MAX_TEXT_LEN;
-			for I in 0 to MAX_TEXT_LEN - 1 loop
-					txt.str(I).code <= I mod 128;
---					if I mod 2 = 0 then
-						txt.str(I).size  <= BIG;
---					else
---						txt.str(I).size  <= SMALL;
---					end if;
-					txt.str(I).color <= COLOR_GREEN;
-			end loop;
+            for I in 0 to MAX_TEXT_LEN - 1 loop
+                txt.str(I).code  <= I mod 128;
+--                                      if I mod 2 = 0 then
+                txt.str(I).size  <= BIG;
+--                                      else
+--                                              txt.str(I).size  <= SMALL;
+--                                      end if;
+                txt.str(I).color <= COLOR_GREEN;
+            end loop;
         elsif clk'event and clk = '1' then
 
 --            case keyboard_event.e_type is
