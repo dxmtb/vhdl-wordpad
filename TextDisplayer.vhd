@@ -28,11 +28,11 @@ entity TextDisplayer is
 end entity;  -- TextDisplayer
 
 architecture arch of TextDisplayer is
-    constant BOUND : integer := 100;
+    constant BOUND : integer := 0;
     signal   button   : std_logic;
     signal   clk      : std_logic;
 
-    signal current_char_pos, left_char : CharPos;
+    shared variable current_char_pos, left_char : CharPos;
     signal current_char    : Char;
     signal U, D, row                  : YCoordinate;
     signal L, R                       : XCoordinate;
@@ -47,11 +47,11 @@ begin
     current_char <= txt.str(current_char_pos);
     R <= L + getWidth(current_char);
     process(clk, reset)
-        variable tmp_pos : CharPos;
+        --variable tmp_pos : CharPos;
     begin
         if reset = '0' then
-            current_char_pos <= MAX_TEXT_LEN-1;
-            left_char         <= 0;
+            current_char_pos := MAX_TEXT_LEN-1;
+            left_char        := 0;
             row              <= 0;
         elsif clk'event and clk = '1' then
 			if x_pos < 640 and y_pos < 480 then
@@ -61,23 +61,23 @@ begin
 						U <= BOUND;
 						row <= BOUND;
 						L <= 0;
-						current_char_pos <= first_char;
-						left_char <= first_char;
+						current_char_pos := first_char;
+						left_char := first_char;
 					elsif y_pos = row then
 						if L /= R and x_pos >= R then
 							L                <= R;
-							current_char_pos <= current_char_pos + 1;
+							current_char_pos := current_char_pos + 1;
 							--right_char <= current_char_pos;
 						end if;
-					else
+					elsif y_pos = row + 1 then
 						row <= y_pos;           --assert y_pos = row + 1
 						L   <= 0;
 						if y_pos < D then
-							current_char_pos <= left_char;
+							current_char_pos := left_char;
 						else                    --y_pos >= high new line of chars
 							U                <= D;
-							current_char_pos <= current_char_pos + 1;
-							left_char <= current_char_pos;
+							current_char_pos := current_char_pos + 1;
+							left_char := current_char_pos;
 	--						tmp_pos          := current_char_pos + 10;
 	--						current_char_pos <= tmp_pos;
 	--						leftChar         <= tmp_pos;
@@ -115,10 +115,12 @@ begin
         end if;
     end process;
     
-    process (U, current_char)
+    process (clk)
     begin
-        if U >= D or getWidth(current_char) > D - U then  --width is same as height
-			D <= U + getWidth(current_char);
+		if clk'event and clk = '1' then
+			if U >= D or getWidth(current_char) > D - U then --width is same as height
+				D <= U + getWidth(current_char);
+			end if;
         end if;
     end process;
 

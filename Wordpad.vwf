@@ -25,7 +25,7 @@ HEADER
 	VERSION = 1;
 	TIME_UNIT = ns;
 	DATA_OFFSET = 0.0;
-	DATA_DURATION = 100000.0;
+	DATA_DURATION = 1000000.0;
 	SIMULATION_TIME = 0.0;
 	GRID_PHASE = 0.0;
 	GRID_PERIOD = 10.0;
@@ -262,6 +262,16 @@ SIGNAL("VGADisplayer:m5|vector_y[0]")
 	PARENT = "VGADisplayer:m5|vector_y";
 }
 
+SIGNAL("reset")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "";
+}
+
 SIGNAL("TextDisplayer:m4|current_char_pos")
 {
 	VALUE_TYPE = NINE_LEVEL_BIT;
@@ -272,57 +282,7 @@ SIGNAL("TextDisplayer:m4|current_char_pos")
 	PARENT = "";
 }
 
-SIGNAL("TextDisplayer:m4|current_char_pos[7]")
-{
-	VALUE_TYPE = NINE_LEVEL_BIT;
-	SIGNAL_TYPE = SINGLE_BIT;
-	WIDTH = 1;
-	LSB_INDEX = -1;
-	DIRECTION = REGISTERED;
-	PARENT = "TextDisplayer:m4|current_char_pos";
-}
-
-SIGNAL("TextDisplayer:m4|current_char_pos[6]")
-{
-	VALUE_TYPE = NINE_LEVEL_BIT;
-	SIGNAL_TYPE = SINGLE_BIT;
-	WIDTH = 1;
-	LSB_INDEX = -1;
-	DIRECTION = REGISTERED;
-	PARENT = "TextDisplayer:m4|current_char_pos";
-}
-
-SIGNAL("TextDisplayer:m4|current_char_pos[5]")
-{
-	VALUE_TYPE = NINE_LEVEL_BIT;
-	SIGNAL_TYPE = SINGLE_BIT;
-	WIDTH = 1;
-	LSB_INDEX = -1;
-	DIRECTION = REGISTERED;
-	PARENT = "TextDisplayer:m4|current_char_pos";
-}
-
-SIGNAL("TextDisplayer:m4|current_char_pos[4]")
-{
-	VALUE_TYPE = NINE_LEVEL_BIT;
-	SIGNAL_TYPE = SINGLE_BIT;
-	WIDTH = 1;
-	LSB_INDEX = -1;
-	DIRECTION = REGISTERED;
-	PARENT = "TextDisplayer:m4|current_char_pos";
-}
-
-SIGNAL("TextDisplayer:m4|current_char_pos[3]")
-{
-	VALUE_TYPE = NINE_LEVEL_BIT;
-	SIGNAL_TYPE = SINGLE_BIT;
-	WIDTH = 1;
-	LSB_INDEX = -1;
-	DIRECTION = REGISTERED;
-	PARENT = "TextDisplayer:m4|current_char_pos";
-}
-
-SIGNAL("TextDisplayer:m4|current_char_pos[2]")
+SIGNAL("TextDisplayer:m4|current_char_pos[0]")
 {
 	VALUE_TYPE = NINE_LEVEL_BIT;
 	SIGNAL_TYPE = SINGLE_BIT;
@@ -342,7 +302,7 @@ SIGNAL("TextDisplayer:m4|current_char_pos[1]")
 	PARENT = "TextDisplayer:m4|current_char_pos";
 }
 
-SIGNAL("TextDisplayer:m4|current_char_pos[0]")
+SIGNAL("TextDisplayer:m4|current_char_pos[3]")
 {
 	VALUE_TYPE = NINE_LEVEL_BIT;
 	SIGNAL_TYPE = SINGLE_BIT;
@@ -352,14 +312,464 @@ SIGNAL("TextDisplayer:m4|current_char_pos[0]")
 	PARENT = "TextDisplayer:m4|current_char_pos";
 }
 
-SIGNAL("reset")
+SIGNAL("TextDisplayer:m4|current_char_pos[4]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = REGISTERED;
+	PARENT = "TextDisplayer:m4|current_char_pos";
+}
+
+SIGNAL("TextDisplayer:m4|current_char_pos[5]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = REGISTERED;
+	PARENT = "TextDisplayer:m4|current_char_pos";
+}
+
+SIGNAL("TextDisplayer:m4|current_char_pos[6]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = REGISTERED;
+	PARENT = "TextDisplayer:m4|current_char_pos";
+}
+
+SIGNAL("TextDisplayer:m4|current_char_pos[7]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = REGISTERED;
+	PARENT = "TextDisplayer:m4|current_char_pos";
+}
+
+SIGNAL("TextDisplayer:m4|current_char_pos[2]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = REGISTERED;
+	PARENT = "TextDisplayer:m4|current_char_pos";
+}
+
+SIGNAL("TextDisplayer:m4|current_char.code")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = BUS;
+	WIDTH = 7;
+	LSB_INDEX = 0;
+	DIRECTION = REGISTERED;
+	PARENT = "";
+}
+
+SIGNAL("TextDisplayer:m4|current_char.code[6]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = REGISTERED;
+	PARENT = "TextDisplayer:m4|current_char.code";
+}
+
+SIGNAL("TextDisplayer:m4|current_char.code[5]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = REGISTERED;
+	PARENT = "TextDisplayer:m4|current_char.code";
+}
+
+SIGNAL("TextDisplayer:m4|current_char.code[4]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = REGISTERED;
+	PARENT = "TextDisplayer:m4|current_char.code";
+}
+
+SIGNAL("TextDisplayer:m4|current_char.code[3]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = REGISTERED;
+	PARENT = "TextDisplayer:m4|current_char.code";
+}
+
+SIGNAL("TextDisplayer:m4|current_char.code[2]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = REGISTERED;
+	PARENT = "TextDisplayer:m4|current_char.code";
+}
+
+SIGNAL("TextDisplayer:m4|current_char.code[1]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = REGISTERED;
+	PARENT = "TextDisplayer:m4|current_char.code";
+}
+
+SIGNAL("TextDisplayer:m4|current_char.code[0]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = REGISTERED;
+	PARENT = "TextDisplayer:m4|current_char.code";
+}
+
+SIGNAL("TextDisplayer:m4|row")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = BUS;
+	WIDTH = 10;
+	LSB_INDEX = 0;
+	DIRECTION = REGISTERED;
+	PARENT = "";
+}
+
+SIGNAL("TextDisplayer:m4|row[9]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = REGISTERED;
+	PARENT = "TextDisplayer:m4|row";
+}
+
+SIGNAL("TextDisplayer:m4|row[8]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = REGISTERED;
+	PARENT = "TextDisplayer:m4|row";
+}
+
+SIGNAL("TextDisplayer:m4|row[7]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = REGISTERED;
+	PARENT = "TextDisplayer:m4|row";
+}
+
+SIGNAL("TextDisplayer:m4|row[6]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = REGISTERED;
+	PARENT = "TextDisplayer:m4|row";
+}
+
+SIGNAL("TextDisplayer:m4|row[5]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = REGISTERED;
+	PARENT = "TextDisplayer:m4|row";
+}
+
+SIGNAL("TextDisplayer:m4|row[4]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = REGISTERED;
+	PARENT = "TextDisplayer:m4|row";
+}
+
+SIGNAL("TextDisplayer:m4|row[3]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = REGISTERED;
+	PARENT = "TextDisplayer:m4|row";
+}
+
+SIGNAL("TextDisplayer:m4|row[2]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = REGISTERED;
+	PARENT = "TextDisplayer:m4|row";
+}
+
+SIGNAL("TextDisplayer:m4|row[1]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = REGISTERED;
+	PARENT = "TextDisplayer:m4|row";
+}
+
+SIGNAL("TextDisplayer:m4|row[0]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = REGISTERED;
+	PARENT = "TextDisplayer:m4|row";
+}
+
+SIGNAL("TextDisplayer:m4|x_pos")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = BUS;
+	WIDTH = 10;
+	LSB_INDEX = 0;
+	DIRECTION = INPUT;
+	PARENT = "";
+}
+
+SIGNAL("TextDisplayer:m4|x_pos[9]")
 {
 	VALUE_TYPE = NINE_LEVEL_BIT;
 	SIGNAL_TYPE = SINGLE_BIT;
 	WIDTH = 1;
 	LSB_INDEX = -1;
 	DIRECTION = INPUT;
+	PARENT = "TextDisplayer:m4|x_pos";
+}
+
+SIGNAL("TextDisplayer:m4|x_pos[8]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "TextDisplayer:m4|x_pos";
+}
+
+SIGNAL("TextDisplayer:m4|x_pos[7]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "TextDisplayer:m4|x_pos";
+}
+
+SIGNAL("TextDisplayer:m4|x_pos[6]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "TextDisplayer:m4|x_pos";
+}
+
+SIGNAL("TextDisplayer:m4|x_pos[5]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "TextDisplayer:m4|x_pos";
+}
+
+SIGNAL("TextDisplayer:m4|x_pos[4]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "TextDisplayer:m4|x_pos";
+}
+
+SIGNAL("TextDisplayer:m4|x_pos[3]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "TextDisplayer:m4|x_pos";
+}
+
+SIGNAL("TextDisplayer:m4|x_pos[2]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "TextDisplayer:m4|x_pos";
+}
+
+SIGNAL("TextDisplayer:m4|x_pos[1]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "TextDisplayer:m4|x_pos";
+}
+
+SIGNAL("TextDisplayer:m4|x_pos[0]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "TextDisplayer:m4|x_pos";
+}
+
+SIGNAL("TextDisplayer:m4|y_pos")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = BUS;
+	WIDTH = 10;
+	LSB_INDEX = 0;
+	DIRECTION = INPUT;
 	PARENT = "";
+}
+
+SIGNAL("TextDisplayer:m4|y_pos[9]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "TextDisplayer:m4|y_pos";
+}
+
+SIGNAL("TextDisplayer:m4|y_pos[8]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "TextDisplayer:m4|y_pos";
+}
+
+SIGNAL("TextDisplayer:m4|y_pos[7]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "TextDisplayer:m4|y_pos";
+}
+
+SIGNAL("TextDisplayer:m4|y_pos[6]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "TextDisplayer:m4|y_pos";
+}
+
+SIGNAL("TextDisplayer:m4|y_pos[5]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "TextDisplayer:m4|y_pos";
+}
+
+SIGNAL("TextDisplayer:m4|y_pos[4]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "TextDisplayer:m4|y_pos";
+}
+
+SIGNAL("TextDisplayer:m4|y_pos[3]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "TextDisplayer:m4|y_pos";
+}
+
+SIGNAL("TextDisplayer:m4|y_pos[2]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "TextDisplayer:m4|y_pos";
+}
+
+SIGNAL("TextDisplayer:m4|y_pos[1]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "TextDisplayer:m4|y_pos";
+}
+
+SIGNAL("TextDisplayer:m4|y_pos[0]")
+{
+	VALUE_TYPE = NINE_LEVEL_BIT;
+	SIGNAL_TYPE = SINGLE_BIT;
+	WIDTH = 1;
+	LSB_INDEX = -1;
+	DIRECTION = INPUT;
+	PARENT = "TextDisplayer:m4|y_pos";
 }
 
 TRANSITION_LIST("Clock100M_FPGAE")
@@ -377,7 +787,7 @@ TRANSITION_LIST("Clock100M_FPGAE")
 		LEVEL 1 FOR 5.0;
 		NODE
 		{
-			REPEAT = 9998;
+			REPEAT = 99998;
 			LEVEL 0 FOR 5.0;
 			LEVEL 1 FOR 5.0;
 		}
@@ -389,7 +799,7 @@ TRANSITION_LIST("VGADisplayer:m5|vector_x[9]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL U FOR 100000.0;
+		LEVEL U FOR 1000000.0;
 	}
 }
 
@@ -398,7 +808,7 @@ TRANSITION_LIST("VGADisplayer:m5|vector_x[8]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL U FOR 100000.0;
+		LEVEL U FOR 1000000.0;
 	}
 }
 
@@ -407,7 +817,7 @@ TRANSITION_LIST("VGADisplayer:m5|vector_x[7]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL U FOR 100000.0;
+		LEVEL U FOR 1000000.0;
 	}
 }
 
@@ -416,7 +826,7 @@ TRANSITION_LIST("VGADisplayer:m5|vector_x[6]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL U FOR 100000.0;
+		LEVEL U FOR 1000000.0;
 	}
 }
 
@@ -425,7 +835,7 @@ TRANSITION_LIST("VGADisplayer:m5|vector_x[5]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL U FOR 100000.0;
+		LEVEL U FOR 1000000.0;
 	}
 }
 
@@ -434,7 +844,7 @@ TRANSITION_LIST("VGADisplayer:m5|vector_x[4]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL U FOR 100000.0;
+		LEVEL U FOR 1000000.0;
 	}
 }
 
@@ -443,7 +853,7 @@ TRANSITION_LIST("VGADisplayer:m5|vector_x[3]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL U FOR 100000.0;
+		LEVEL U FOR 1000000.0;
 	}
 }
 
@@ -452,7 +862,7 @@ TRANSITION_LIST("VGADisplayer:m5|vector_x[2]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL U FOR 100000.0;
+		LEVEL U FOR 1000000.0;
 	}
 }
 
@@ -461,7 +871,7 @@ TRANSITION_LIST("VGADisplayer:m5|vector_x[1]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL U FOR 100000.0;
+		LEVEL U FOR 1000000.0;
 	}
 }
 
@@ -470,7 +880,7 @@ TRANSITION_LIST("VGADisplayer:m5|vector_x[0]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL U FOR 100000.0;
+		LEVEL U FOR 1000000.0;
 	}
 }
 
@@ -479,7 +889,7 @@ TRANSITION_LIST("VGADisplayer:m5|vector_y[9]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL U FOR 100000.0;
+		LEVEL U FOR 1000000.0;
 	}
 }
 
@@ -488,7 +898,7 @@ TRANSITION_LIST("VGADisplayer:m5|vector_y[8]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL U FOR 100000.0;
+		LEVEL U FOR 1000000.0;
 	}
 }
 
@@ -497,7 +907,7 @@ TRANSITION_LIST("VGADisplayer:m5|vector_y[7]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL U FOR 100000.0;
+		LEVEL U FOR 1000000.0;
 	}
 }
 
@@ -506,7 +916,7 @@ TRANSITION_LIST("VGADisplayer:m5|vector_y[6]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL U FOR 100000.0;
+		LEVEL U FOR 1000000.0;
 	}
 }
 
@@ -515,7 +925,7 @@ TRANSITION_LIST("VGADisplayer:m5|vector_y[5]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL U FOR 100000.0;
+		LEVEL U FOR 1000000.0;
 	}
 }
 
@@ -524,7 +934,7 @@ TRANSITION_LIST("VGADisplayer:m5|vector_y[4]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL U FOR 100000.0;
+		LEVEL U FOR 1000000.0;
 	}
 }
 
@@ -533,7 +943,7 @@ TRANSITION_LIST("VGADisplayer:m5|vector_y[3]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL U FOR 100000.0;
+		LEVEL U FOR 1000000.0;
 	}
 }
 
@@ -542,7 +952,7 @@ TRANSITION_LIST("VGADisplayer:m5|vector_y[2]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL U FOR 100000.0;
+		LEVEL U FOR 1000000.0;
 	}
 }
 
@@ -551,7 +961,7 @@ TRANSITION_LIST("VGADisplayer:m5|vector_y[1]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL U FOR 100000.0;
+		LEVEL U FOR 1000000.0;
 	}
 }
 
@@ -560,79 +970,7 @@ TRANSITION_LIST("VGADisplayer:m5|vector_y[0]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL U FOR 100000.0;
-	}
-}
-
-TRANSITION_LIST("TextDisplayer:m4|current_char_pos[7]")
-{
-	NODE
-	{
-		REPEAT = 1;
-		LEVEL U FOR 100000.0;
-	}
-}
-
-TRANSITION_LIST("TextDisplayer:m4|current_char_pos[6]")
-{
-	NODE
-	{
-		REPEAT = 1;
-		LEVEL U FOR 100000.0;
-	}
-}
-
-TRANSITION_LIST("TextDisplayer:m4|current_char_pos[5]")
-{
-	NODE
-	{
-		REPEAT = 1;
-		LEVEL U FOR 100000.0;
-	}
-}
-
-TRANSITION_LIST("TextDisplayer:m4|current_char_pos[4]")
-{
-	NODE
-	{
-		REPEAT = 1;
-		LEVEL U FOR 100000.0;
-	}
-}
-
-TRANSITION_LIST("TextDisplayer:m4|current_char_pos[3]")
-{
-	NODE
-	{
-		REPEAT = 1;
-		LEVEL U FOR 100000.0;
-	}
-}
-
-TRANSITION_LIST("TextDisplayer:m4|current_char_pos[2]")
-{
-	NODE
-	{
-		REPEAT = 1;
-		LEVEL U FOR 100000.0;
-	}
-}
-
-TRANSITION_LIST("TextDisplayer:m4|current_char_pos[1]")
-{
-	NODE
-	{
-		REPEAT = 1;
-		LEVEL U FOR 100000.0;
-	}
-}
-
-TRANSITION_LIST("TextDisplayer:m4|current_char_pos[0]")
-{
-	NODE
-	{
-		REPEAT = 1;
-		LEVEL U FOR 100000.0;
+		LEVEL U FOR 1000000.0;
 	}
 }
 
@@ -641,8 +979,413 @@ TRANSITION_LIST("reset")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL 0 FOR 15.0;
-		LEVEL 1 FOR 99985.0;
+		LEVEL 0 FOR 20.0;
+		LEVEL 1 FOR 999980.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|current_char_pos[0]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|current_char_pos[1]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|current_char_pos[3]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|current_char_pos[4]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|current_char_pos[5]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|current_char_pos[6]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|current_char_pos[7]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|current_char_pos[2]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|current_char.code[6]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|current_char.code[5]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|current_char.code[4]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|current_char.code[3]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|current_char.code[2]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|current_char.code[1]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|current_char.code[0]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|row[9]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|row[8]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|row[7]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|row[6]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|row[5]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|row[4]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|row[3]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|row[2]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|row[1]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|row[0]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|x_pos[9]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|x_pos[8]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|x_pos[7]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|x_pos[6]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|x_pos[5]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|x_pos[4]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|x_pos[3]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|x_pos[2]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|x_pos[1]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|x_pos[0]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|y_pos[9]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|y_pos[8]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|y_pos[7]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|y_pos[6]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|y_pos[5]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|y_pos[4]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|y_pos[3]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|y_pos[2]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|y_pos[1]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
+	}
+}
+
+TRANSITION_LIST("TextDisplayer:m4|y_pos[0]")
+{
+	NODE
+	{
+		REPEAT = 1;
+		LEVEL U FOR 1000000.0;
 	}
 }
 
@@ -972,6 +1715,416 @@ DISPLAY_LINE
 	RADIX = Unsigned;
 	TREE_INDEX = 32;
 	TREE_LEVEL = 0;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|current_char.code";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 33;
+	TREE_LEVEL = 0;
+	CHILDREN = 34, 35, 36, 37, 38, 39, 40;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|current_char.code[6]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 34;
+	TREE_LEVEL = 1;
+	PARENT = 33;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|current_char.code[5]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 35;
+	TREE_LEVEL = 1;
+	PARENT = 33;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|current_char.code[4]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 36;
+	TREE_LEVEL = 1;
+	PARENT = 33;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|current_char.code[3]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 37;
+	TREE_LEVEL = 1;
+	PARENT = 33;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|current_char.code[2]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 38;
+	TREE_LEVEL = 1;
+	PARENT = 33;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|current_char.code[1]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 39;
+	TREE_LEVEL = 1;
+	PARENT = 33;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|current_char.code[0]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 40;
+	TREE_LEVEL = 1;
+	PARENT = 33;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|row";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 41;
+	TREE_LEVEL = 0;
+	CHILDREN = 42, 43, 44, 45, 46, 47, 48, 49, 50, 51;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|row[9]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 42;
+	TREE_LEVEL = 1;
+	PARENT = 41;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|row[8]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 43;
+	TREE_LEVEL = 1;
+	PARENT = 41;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|row[7]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 44;
+	TREE_LEVEL = 1;
+	PARENT = 41;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|row[6]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 45;
+	TREE_LEVEL = 1;
+	PARENT = 41;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|row[5]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 46;
+	TREE_LEVEL = 1;
+	PARENT = 41;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|row[4]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 47;
+	TREE_LEVEL = 1;
+	PARENT = 41;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|row[3]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 48;
+	TREE_LEVEL = 1;
+	PARENT = 41;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|row[2]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 49;
+	TREE_LEVEL = 1;
+	PARENT = 41;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|row[1]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 50;
+	TREE_LEVEL = 1;
+	PARENT = 41;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|row[0]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 51;
+	TREE_LEVEL = 1;
+	PARENT = 41;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|x_pos";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 52;
+	TREE_LEVEL = 0;
+	CHILDREN = 53, 54, 55, 56, 57, 58, 59, 60, 61, 62;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|x_pos[9]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 53;
+	TREE_LEVEL = 1;
+	PARENT = 52;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|x_pos[8]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 54;
+	TREE_LEVEL = 1;
+	PARENT = 52;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|x_pos[7]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 55;
+	TREE_LEVEL = 1;
+	PARENT = 52;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|x_pos[6]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 56;
+	TREE_LEVEL = 1;
+	PARENT = 52;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|x_pos[5]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 57;
+	TREE_LEVEL = 1;
+	PARENT = 52;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|x_pos[4]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 58;
+	TREE_LEVEL = 1;
+	PARENT = 52;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|x_pos[3]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 59;
+	TREE_LEVEL = 1;
+	PARENT = 52;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|x_pos[2]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 60;
+	TREE_LEVEL = 1;
+	PARENT = 52;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|x_pos[1]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 61;
+	TREE_LEVEL = 1;
+	PARENT = 52;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|x_pos[0]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 62;
+	TREE_LEVEL = 1;
+	PARENT = 52;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|y_pos";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 63;
+	TREE_LEVEL = 0;
+	CHILDREN = 64, 65, 66, 67, 68, 69, 70, 71, 72, 73;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|y_pos[9]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 64;
+	TREE_LEVEL = 1;
+	PARENT = 63;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|y_pos[8]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 65;
+	TREE_LEVEL = 1;
+	PARENT = 63;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|y_pos[7]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 66;
+	TREE_LEVEL = 1;
+	PARENT = 63;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|y_pos[6]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 67;
+	TREE_LEVEL = 1;
+	PARENT = 63;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|y_pos[5]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 68;
+	TREE_LEVEL = 1;
+	PARENT = 63;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|y_pos[4]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 69;
+	TREE_LEVEL = 1;
+	PARENT = 63;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|y_pos[3]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 70;
+	TREE_LEVEL = 1;
+	PARENT = 63;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|y_pos[2]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 71;
+	TREE_LEVEL = 1;
+	PARENT = 63;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|y_pos[1]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 72;
+	TREE_LEVEL = 1;
+	PARENT = 63;
+}
+
+DISPLAY_LINE
+{
+	CHANNEL = "TextDisplayer:m4|y_pos[0]";
+	EXPAND_STATUS = COLLAPSED;
+	RADIX = ASCII;
+	TREE_INDEX = 73;
+	TREE_LEVEL = 1;
+	PARENT = 63;
 }
 
 TIME_BAR
