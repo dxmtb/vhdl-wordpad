@@ -6,7 +6,7 @@ use work.GlobalDefines.all;
 entity TextProcessor is
     port(
         rst, clk                    : in     std_logic;
-        txt                         : buffer TextArea;
+        txt                         : out TextArea;
         keyboard_event, mouse_event : buffer EventT;
         cursor                      : buffer CharPos
         );
