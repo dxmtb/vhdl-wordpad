@@ -48,23 +48,23 @@ package GlobalDefines is
         color : RGBColor;
     end record;
 
-    constant MAX_TEXT_LEN : integer := 256;
-    subtype  CharPos is integer range 0 to MAX_TEXT_LEN-1;
+    constant MAX_TEXT_LEN : integer := 255;
+    subtype  CharPos is integer range 0 to MAX_TEXT_LEN;
     type     CharSeqT is array (0 to MAX_TEXT_LEN-1) of Char;
     type     TextArea is record
         length : CharPos;
         str    : CharSeqT;
     end record;
 
-    subtype Pointer is integer range 0 to 16383;
-    function memAddr(ch  : Char; y : YCoordinate) return Pointer;
+    subtype CharRomPtr is STD_LOGIC_VECTOR (12 DOWNTO 0);
+    function memAddr(ch  : Char; y : YCoordinate) return CharRomPtr;
     function getWidth(ch : Char) return XCoordinate;
 end package;
 
 package body GlobalDefines is
-    function memAddr(ch : Char; y : YCoordinate) return Pointer is
+    function memAddr(ch : Char; y : YCoordinate) return CharRomPtr is
     begin
-        return SizeShift(ch.size) + (FontShift(ch.font)*128+ch.code)*SizeToPixel(ch.size)+y;
+        return std_logic_vector(to_unsigned(SizeShift(ch.size) + (FontShift(ch.font)*128+ch.code)*SizeToPixel(ch.size)+y, CharRomPtr'length));
     end function;
     function getWidth(ch : Char) return XCoordinate is
     begin

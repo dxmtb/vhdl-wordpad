@@ -114,14 +114,14 @@ begin
     end process;
 
     -----------------------------------------------------------------------     
-    process(reset, clk, vector_x, vector_y)
+    process(reset, clk)
     begin
         if reset = '0' then
             r1 <= "000";
             g1 <= "000";
             b1 <= "000";
         elsif(clk'event and clk = '1')then
-            case rgb(Blue) is
+            case rgb(Red) is
                 when '0' => r1 <= "000";
                 when '1' => r1 <= "111";
             end case;
@@ -129,7 +129,7 @@ begin
                 when '0' => g1 <= "000";
                 when '1' => g1 <= "111";
             end case;
-            case rgb(Red) is
+            case rgb(Blue) is
                 when '0' => b1 <= "000";
                 when '1' => b1 <= "111";
             end case;
@@ -138,7 +138,7 @@ begin
 
     process (hs1, vs1, r1, g1, b1)
     begin
-        if hs1 = '1' and vs1 = '1' then
+        if hs1 = '1' and vs1 = '1' and vector_x < 640 and vector_y < 480 then
             r <= r1;
             g <= g1;
             b <= b1;

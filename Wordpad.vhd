@@ -21,7 +21,8 @@ entity Wordpad is
         VGA_G : out std_logic_vector(2 downto 0);
         VGA_R : out std_logic_vector(2 downto 0);
 
-        char_len : out CharPos
+        debug0 : out CharCode;
+        error : out std_logic
         ) ;
 end entity;  -- MasterController
 
@@ -50,7 +51,7 @@ architecture arch of Wordpad is
     component TextProcessor is
         port(
             rst, clk                    : in     std_logic;
-            txt                         : buffer TextArea;
+            txt                         : out TextArea;
             keyboard_event, mouse_event : buffer EventT;
             cursor                      : buffer CharPos
             );
@@ -61,7 +62,7 @@ architecture arch of Wordpad is
             clk_100       : in     std_logic;
             reset         : in     std_logic;
             --text information
-            txt           : buffer TextArea;
+            txt           : in TextArea;
             cursor        : buffer CharPos;
             --mouse
             left_button   : in     std_logic;
@@ -75,7 +76,7 @@ architecture arch of Wordpad is
             y_pos         : in     YCoordinate;
             rgb           : out    RGBColor;
             --rom interaction
-            rom_address   : out    std_logic_vector (13 downto 0);
+            rom_address   : out    CharRomPtr;
             rom_data      : in     std_logic_vector (15 downto 0)
             );
     end component;
@@ -96,7 +97,7 @@ architecture arch of Wordpad is
     component char_rom is
         port
             (
-                address : in  std_logic_vector (13 downto 0);
+                address : in  CharRomPtr;
                 clock   : in  std_logic;
                 q       : out std_logic_vector (15 downto 0)
                 );
@@ -109,11 +110,12 @@ architecture arch of Wordpad is
     signal mousey, y_pos                                          : YCoordinate;
     signal txt                                                    : TextArea;
     signal cursor                                                 : CharPos;
-    signal rom_address                                            : std_logic_vector(13 downto 0);
+    signal rom_address                                            : CharRomPtr;
     signal rom_data                                               : std_logic_vector(15 downto 0);
     signal rgb                                                    : RGBColor;
 
 begin
+	error <= '1';
     mousex <= to_integer(unsigned(mousex_slv));
     mousey <= to_integer(unsigned(mousey_slv));
     m1 : KeyboardListener port map(
