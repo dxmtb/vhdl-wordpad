@@ -103,7 +103,7 @@ begin
 --            else
 --                rgb <= COLOR_GREEN;
 --            end if;			
---        end if;            
+--        end if;
         elsif x_pos - L < getWidth(current_char) then
             if rom_data(x_pos-L) = '0' then
                 rgb <= COLOR_WHITE;
@@ -114,7 +114,7 @@ begin
             rgb <= COLOR_WHITE;
         end if;
     end process;
-    
+
     process (clk)
     begin
 		if clk'event and clk = '1' then

@@ -14,7 +14,7 @@ end Keyboard ;
 
 architecture rtl of Keyboard is
 type state_type is (delay, start, d0, d1, d2, d3, d4, d5, d6, d7, parity, stop, finish) ;
-signal data, clk, clk1, clk2, odd, fok : std_logic ; -- 毛刺处理内部信号, odd为奇偶校验
+signal data, clk, clk1, clk2, odd, fok : std_logic ;
 signal code : std_logic_vector(7 downto 0) ; 
 signal state : state_type ;
 begin

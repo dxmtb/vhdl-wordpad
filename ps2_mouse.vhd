@@ -51,7 +51,7 @@ architecture behavioral of ps2_mouse is
     signal m1_state, m1_next_state : m1statetype;  --the two states
     signal m2_state, m2_next_state : m2statetype;
 
-    signal watchdog_timer_done, debounce_timer_done : std_logic;  --signals of command from host to mouse 
+    signal watchdog_timer_done, debounce_timer_done : std_logic;  --signals of command from host to mouse
     signal q                                        : std_logic_vector(total_bits-1 downto 0);  --bit sequence
     signal bitcount                                 : std_logic_vector(5 downto 0);  --bit count
 
@@ -65,7 +65,7 @@ architecture behavioral of ps2_mouse is
     signal fall, n_fall : std_logic;    -- output from m1 state machine.
 
     signal output_strobe : std_logic;  -- latches data into the output registers(选通脉冲)
-    signal packet_good   : std_logic;   -- check whether the data is valid 
+    signal packet_good   : std_logic;   -- check whether the data is valid
     signal clk, reset    : std_logic;
     signal count         : std_logic_vector(20 downto 0);
 
@@ -264,7 +264,7 @@ begin
             when m2_error_no_ack =>
                 error_no_ack  <= '1';
                 m2_next_state <= m2_error_no_ack;
-                
+
             when m2_await_response =>
                 m2_next_state <= m2_use;
 
