@@ -9,7 +9,7 @@ entity TextDisplayer is
         reset         : in     std_logic;
         --text information
         txt           : in     TextArea;
-        cursor        : buffer CharPos;
+        cursor        : in 	   CharPos;
         --mouse
         left_button   : in     std_logic;
         right_button  : in     std_logic;
@@ -17,6 +17,7 @@ entity TextDisplayer is
         mousex        : in     XCoordinate;
         mousey        : in     YCoordinate;
         error_no_ack  : in     std_logic;
+		mouse_pos 	  : out    CharPos;
         --display output
         x_pos         : in     XCoordinate;
         y_pos         : in     YCoordinate;
@@ -42,10 +43,11 @@ architecture arch of TextDisplayer is
     constant VGA_WIDTH  : integer := 640;
 
 begin
-    button       <= left_button or right_button or middle_button;
+    button       <= not error_no_ack and (left_button or right_button or middle_button);
     clk          <= clk_100;
     current_char <= txt.str(current_char_pos);
     R            <= L + getWidth(current_char);
+
     process(clk, reset)
         --variable tmp_pos : CharPos;
     begin
@@ -78,15 +80,23 @@ begin
                             U                <= D;
                             current_char_pos := current_char_pos + 1;
                             left_char        := current_char_pos;
-                            --                                          tmp_pos          := current_char_pos + 10;
-                            --                                          current_char_pos <= tmp_pos;
-                            --                                          leftChar         <= tmp_pos;
                         end if;
                     end if;
                 end if;
             end if;
         end if;
     end process;
+
+	process(clk, reset)
+	begin
+		if reset = '0' then
+			mouse_pos <= 0;
+		elsif clk'event and clk = '1' then
+			if pos_x = mousex and pos_y = mousey then
+				mouse_pos <= current_char_pos;
+			end if;
+		end if;
+	end process;	
 
     process(current_char, row, U, y_pos)
     begin
@@ -95,8 +105,28 @@ begin
 
     process(x_pos, y_pos, rom_data, L, current_char)
     begin
-        if y_pos < BOUND then
+		if not error_no_ack and x_pos = mousex and y_pos >= mousey-5 and y_pos <= mousey+5 then
+			rgb <= COLOR_BLACK;
+        elsif y_pos < BOUND then
             rgb <= COLOR_BLUE;
+			if y_pos >= 10 and y_pos < 45 then
+				--Font and Size
+				if x_pos >= 10 and x_pos < 60 then
+					rgb <= COLOR_RED;
+				elsif x_pos >= 80 and x_pos < 130 then
+					rgb <= COLOR_RED;
+				elsif x_pos >= 150 and x_pos < 200 then
+					rgb <= COLOR_RED;				
+				elsif x_pos >= 220 and x_pos < 270 then
+					rgb <= COLOR_RED;
+				end if;
+			elsif y_pos >= 55 and y_pos < 90 then
+				if x_pos >= 10 and x_pos < 60 then
+					rgb <= COLOR_BLACK;
+				elsif x_pos >= 80 and x_pos < 130 then
+					rgb <= COLOR_BLUE;
+				end if;
+			end if;
 --        else
 --            if rom_data(x_pos mod 16) = '0' then
 --                rgb <= COLOR_WHITE;
