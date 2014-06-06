@@ -6,6 +6,7 @@ use work.GlobalDefines.all;
 entity Wordpad is
     port (
         Clock100M_FPGAE : in std_logic;  --100MHz
+        click : in std_logic;
         reset           : in std_logic;
 
         PS2_keyboard_clk  : inout std_logic;
@@ -21,7 +22,6 @@ entity Wordpad is
         VGA_G : out std_logic_vector(2 downto 0);
         VGA_R : out std_logic_vector(2 downto 0);
 
-        debug0 : out CharCode;
         error  : out std_logic
         ) ;
 end entity;  -- MasterController
@@ -34,6 +34,12 @@ architecture arch of Wordpad is
             evt  : buffer EventT
             );
     end component;
+	component KeyboardSimulator is
+		port (
+			clk  : in  std_logic;
+			evt  : buffer EventT
+			);
+	end component;
     component ps2_mouse is
         port(
             clk_in        : in     std_logic;
@@ -50,34 +56,42 @@ architecture arch of Wordpad is
     end component;
     component TextProcessor is
         port(
-            rst, clk                    : in     std_logic;
-            txt                         : out    TextArea;
-            keyboard_event, mouse_event : buffer EventT;
-            cursor                      : buffer CharPos
+        rst, clk                    : in     std_logic;
+        left_button   : in     std_logic;
+        right_button  : in     std_logic;
+        middle_button : in     std_logic;
+        mousex        : in     XCoordinate;
+        mousey        : in     YCoordinate;
+        error_no_ack  : in     std_logic;
+        mouse_pos : in CharPos;
+        txt                         : inout    TextArea;
+        keyboard_event, mouse_event : inout EventT;
+        cursor                      : out CharPos
             );
     end component;
 
     component TextDisplayer is
         port (
-            clk_100       : in     std_logic;
-            reset         : in     std_logic;
-            --text information
-            txt           : in     TextArea;
-            cursor        : buffer CharPos;
-            --mouse
-            left_button   : in     std_logic;
-            right_button  : in     std_logic;
-            middle_button : in     std_logic;
-            mousex        : in     XCoordinate;
-            mousey        : in     YCoordinate;
-            error_no_ack  : in     std_logic;
-            --display output
-            x_pos         : in     XCoordinate;
-            y_pos         : in     YCoordinate;
-            rgb           : out    RGBColor;
-            --rom interaction
-            rom_address   : out    CharRomPtr;
-            rom_data      : in     std_logic_vector (15 downto 0)
+        clk_100       : in     std_logic;
+        reset         : in     std_logic;
+        --text information
+        txt           : in     TextArea;
+        cursor        : in     CharPos;
+        --mouse
+        left_button   : in     std_logic;
+        right_button  : in     std_logic;
+        middle_button : in     std_logic;
+        mousex        : in     XCoordinate;
+        mousey        : in     YCoordinate;
+        error_no_ack  : in     std_logic;
+        mouse_pos 	: out CharPos;
+        --display output
+        x_pos         : in     XCoordinate;
+        y_pos         : in     YCoordinate;
+        rgb           : out    RGBColor;
+        --rom interaction
+        rom_address   : out    CharRomPtr;
+        rom_data      : in     std_logic_vector (0 to 15)
             );
     end component;
 
@@ -109,7 +123,7 @@ architecture arch of Wordpad is
     signal mousex, x_pos                                          : XCoordinate;
     signal mousey, y_pos                                          : YCoordinate;
     signal txt                                                    : TextArea;
-    signal cursor                                                 : CharPos;
+    signal cursor, mouse_pos                                                 : CharPos;
     signal rom_address                                            : CharRomPtr;
     signal rom_data                                               : std_logic_vector(15 downto 0);
     signal rgb                                                    : RGBColor;
@@ -118,9 +132,13 @@ begin
     error  <= '1';
     mousex <= to_integer(unsigned(mousex_slv));
     mousey <= to_integer(unsigned(mousey_slv));
-    m1 : KeyboardListener port map(
-        clk  => PS2_keyboard_clk,
-        data => PS2_keyboard_Data,
+--    m1 : KeyboardListener port map(
+--        clk  => PS2_keyboard_clk,
+--        data => PS2_keyboard_Data,
+--        evt  => keyboard_event);
+
+    m1 : KeyboardSimulator port map(
+        clk  => click,
         evt  => keyboard_event);
 
     m2 : ps2_mouse port map(
@@ -138,6 +156,13 @@ begin
     m3 : TextProcessor port map(
         clk            => Clock100M_FPGAE,
         rst            => reset,
+        left_button   => left_button,
+        right_button  => right_button,
+        middle_button => middle_button,
+        mousex        => mousex,
+        mousey        => mousey,
+        error_no_ack  => error_no_ack,
+        mouse_pos => mouse_pos,
         txt            => txt,
         keyboard_event => keyboard_event,
         mouse_event    => mouse_event,
@@ -157,6 +182,7 @@ begin
         mousex        => mousex,
         mousey        => mousey,
         error_no_ack  => error_no_ack,
+        mouse_pos => mouse_pos,
         --display output
         x_pos         => x_pos,
         y_pos         => y_pos,
@@ -185,5 +211,6 @@ begin
         q       => rom_data,
         clock   => Clock100M_FPGAE
         );
+
 
 end architecture;  -- arch

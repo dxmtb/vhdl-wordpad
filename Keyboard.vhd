@@ -26,7 +26,7 @@ begin
 
     odd <= code(0) xor code(1) xor code(2) xor code(3)
            xor code(4) xor code(5) xor code(6) xor code(7);
-    
+
     scancode <= code when fok = '1';
 
     process(rst, fclk)

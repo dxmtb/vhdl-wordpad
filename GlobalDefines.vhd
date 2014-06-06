@@ -15,8 +15,30 @@ package GlobalDefines is
         args   : ArgsType;
     end record;
 
+    constant BOUND  : integer := 100;
+
     subtype XCoordinate is integer range 0 to 800;
     subtype YCoordinate is integer range 0 to 600;
+
+    constant Button_Font_Size_Y_START : integer := 10;
+    constant Button_Font_Size_Y_END : integer := 45;
+
+    constant Button_Color_Y_START : integer := 55;
+    constant Button_Color_Y_END : integer := 90;
+
+    constant Button_Small_X_Start : integer := 10;
+    constant Button_Small_X_End : integer := 60;
+    constant Button_Big_X_Start : integer := 80;
+    constant Button_Big_X_End : integer := 130;
+
+    constant Button_Font1_X_Start : integer := 150;
+    constant Button_Font1_X_End : integer := 200;
+    constant Button_Font2_X_Start : integer := 220;
+    constant Button_Font2_X_End : integer := 270;
+
+    constant Button_Color_X_Start : integer := 10;
+    constant Button_Color_X_Width : integer := 30;
+    constant Button_Color_X_Dis : integer := 15;
 
     type ColorElement is (Red, Green, Blue);
     type RGBColor is array (ColorElement range Red to Blue) of std_logic;
@@ -29,6 +51,10 @@ package GlobalDefines is
     constant COLOR_PURPLE : RGBColor := "101";
     constant COLOR_YELLOW : RGBColor := "110";
     constant COLOR_WHITE  : RGBColor := "111";
+
+    type ALL_COLOR_T is array (0 to 7) of RGBColor;
+    constant ALL_COLOR : ALL_COLOR_T :=
+		(COLOR_BLACK, COLOR_BLUE, COLOR_GREEN, COLOR_CYAN, COLOR_RED, COLOR_PURPLE, COLOR_YELLOW, COLOR_WHITE);
 
     type     CharSizeType is (Small, Big);
     type     CharSizeIndexedArray is array (CharSizeType range Small to Big) of integer;
@@ -52,7 +78,7 @@ package GlobalDefines is
     subtype  CharPos is integer range 0 to MAX_TEXT_LEN;
     type     CharSeqT is array (0 to MAX_TEXT_LEN-1) of Char;
     type     TextArea is record
-        length : CharPos;
+        len : CharPos;
         str    : CharSeqT;
     end record;
 
