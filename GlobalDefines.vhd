@@ -3,26 +3,12 @@ use ieee.numeric_std.all;
 use ieee.std_logic_1164.all;
 
 package GlobalDefines is
-    type EventType is (
-        NONE,
-        MOVE_CURSOR,
-        MOVE_FIRST,
-        INSERT_CHAR_AT_CURSOR,
-        DELETE_AT_CURSOR,
-        SET_FORMAT
-        );
+
     subtype ASCII is integer range 0 to 127;
-    type    EventT is record
-        e_type : EventType;
-        ascii   : ASCII;
-        format_type : integer range 0 to 2;
-        format : integer range 0 to 7;
-        id : integer;
-    end record;
 
     type SelMode is (NO, BEGIN_SEL, END_SEL);
 
-    constant BOUND  : integer := 100;
+    constant BOUND      : integer := 100;
     constant VGA_HEIGHT : integer := 480;
     constant VGA_WIDTH  : integer := 640;
 
@@ -30,24 +16,24 @@ package GlobalDefines is
     subtype YCoordinate is integer range 0 to 600;
 
     constant Button_Font_Size_Y_START : integer := 10;
-    constant Button_Font_Size_Y_END : integer := 45;
+    constant Button_Font_Size_Y_END   : integer := 45;
 
     constant Button_Color_Y_START : integer := 55;
-    constant Button_Color_Y_END : integer := 90;
+    constant Button_Color_Y_END   : integer := 90;
 
     constant Button_Small_X_Start : integer := 10;
-    constant Button_Small_X_End : integer := 60;
-    constant Button_Big_X_Start : integer := 80;
-    constant Button_Big_X_End : integer := 130;
+    constant Button_Small_X_End   : integer := 60;
+    constant Button_Big_X_Start   : integer := 80;
+    constant Button_Big_X_End     : integer := 130;
 
     constant Button_Font1_X_Start : integer := 150;
-    constant Button_Font1_X_End : integer := 200;
+    constant Button_Font1_X_End   : integer := 200;
     constant Button_Font2_X_Start : integer := 220;
-    constant Button_Font2_X_End : integer := 270;
+    constant Button_Font2_X_End   : integer := 270;
 
     constant Button_Color_X_Start : integer := 10;
     constant Button_Color_X_Width : integer := 30;
-    constant Button_Color_X_Dis : integer := 15;
+    constant Button_Color_X_Dis   : integer := 15;
 
     type ColorElement is (Red, Green, Blue);
     type RGBColor is array (ColorElement range Red to Blue) of std_logic;
@@ -61,9 +47,25 @@ package GlobalDefines is
     constant COLOR_YELLOW : RGBColor := "110";
     constant COLOR_WHITE  : RGBColor := "111";
 
-    type ALL_COLOR_T is array (0 to 7) of RGBColor;
+    type     ALL_COLOR_T is array (0 to 5) of RGBColor;
     constant ALL_COLOR : ALL_COLOR_T :=
-		(COLOR_BLACK, COLOR_BLUE, COLOR_GREEN, COLOR_CYAN, COLOR_RED, COLOR_PURPLE, COLOR_YELLOW, COLOR_WHITE);
+        (COLOR_BLACK, COLOR_GREEN, COLOR_CYAN, COLOR_RED, COLOR_PURPLE, COLOR_YELLOW);
+
+    type EventType is (
+        NONE,
+        MOVE_CURSOR,
+        MOVE_FIRST,
+        INSERT_CHAR_AT_CURSOR,
+        DELETE_AT_CURSOR,
+        SET_FORMAT
+        );
+
+    type EventT is record
+        e_type      : EventType;
+        ascii       : ASCII;
+        format_type : integer range 0 to 2;
+        format      : integer range 0 to ALL_COLOR_T'length - 1;
+    end record;
 
     type     CharSizeType is (Small, Big);
     type     CharSizeIndexedArray is array (CharSizeType range Small to Big) of integer;
@@ -74,7 +76,8 @@ package GlobalDefines is
     type     FontTypeIndexedArray is array (FontType range Font1 to Font2) of integer;
     constant FontShift : FontTypeIndexedArray := (0, 1);
 
-    subtype CharCode is integer range 0 to 127;
+    constant MAX_TEXT_LEN : integer := 126;
+    subtype  CharCode is integer range 0 to MAX_TEXT_LEN-1;
 
     type Char is record
         code  : CharCode;
@@ -83,12 +86,11 @@ package GlobalDefines is
         color : RGBColor;
     end record;
 
-    constant MAX_TEXT_LEN : integer := 255;
-    subtype  CharPos is integer range 0 to MAX_TEXT_LEN;
-    type     CharSeqT is array (0 to MAX_TEXT_LEN-1) of Char;
-    type     TextArea is record
+    subtype CharPos is integer range 0 to MAX_TEXT_LEN;
+    type    CharSeqT is array (0 to MAX_TEXT_LEN-1) of Char;
+    type    TextArea is record
         len : CharPos;
-        str    : CharSeqT;
+        str : CharSeqT;
     end record;
 
     subtype CharRomPtr is std_logic_vector (12 downto 0);

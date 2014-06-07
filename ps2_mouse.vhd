@@ -74,7 +74,7 @@ begin
     ps2_clk  <= '0' when ps2_clk_hi_z = '0'  else 'Z';
     ps2_data <= '0' when ps2_data_hi_z = '0' else 'Z';
 
-    process(clk_in)
+    process(reset, clk_in)
     begin
         if reset = '1' then
             count <= (others => '0');
@@ -352,6 +352,12 @@ begin
                     mousex <= mousex + (q(5) & q(5) & q(19 downto 12));
                 end if;
             end if;
+            if mousex < 0 then
+                mousex    <= (others => '0');
+                mousex(0) <= '1';
+            elsif mousex > x_max then
+                mousex <= CONV_STD_LOGIC_VECTOR(x_max-1, 10);
+            end if;
         end if;
     end process;
 
@@ -366,6 +372,12 @@ begin
                 else
                     mousey <= mousey + (not (q(6) & q(6) & q(30 downto 23)) + "1");
                 end if;
+            end if;
+            if mousey < 0 then
+                mousey    <= (others => '0');
+                mousey(0) <= '1';
+            elsif mousey > y_max then
+                mousey <= CONV_STD_LOGIC_VECTOR(y_max-1, 10);
             end if;
         end if;
     end process;

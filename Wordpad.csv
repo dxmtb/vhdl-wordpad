@@ -1,4 +1,4 @@
-# Copyright (C) 1991-2010 Altera Corporation
+# Copyright (C) 1991-2008 Altera Corporation
 # Your use of Altera Corporation's design tools, logic functions 
 # and other software and tools, and its AMPP partner logic 
 # functions, and any output files from any of the foregoing 
@@ -12,250 +12,250 @@
 # Altera or its authorized distributors.  Please refer to the 
 # applicable agreement for further details.
 
-# Quartus II 64-Bit Version 9.1 Build 350 03/24/2010 Service Pack 2 SJ Full Version
-# File: C:\Users\tb\Desktop\vhdl-wordpad\Wordpad.csv
-# Generated on: Sat Jun 07 03:49:07 2014
+# Quartus II Version 8.0 Build 215 05/29/2008 SJ Full Version
+# File: E:\vhdl-wordpad\Wordpad.csv
+# Generated on: Sat Jun 07 21:49:04 2014
 
 # Note: The column header names should not be changed if you wish to import this .csv file into the Quartus II software.
 
-To,Direction,Location,I/O Bank,VREF Group,I/O Standard,Reserved
-click,Input,PIN_30,2,B2_N1,,
-Clock100M_FPGAE,Input,PIN_210,4,B4_N1,,
-hs,Output,PIN_237,3,B3_N1,,
-PS2_keyboard_clk,Bidir,PIN_194,4,B4_N0,,
-PS2_keyboard_Data,Bidir,PIN_195,4,B4_N0,,
-PS2_mouse_clk,Bidir,PIN_192,4,B4_N0,,
-PS2_mouse_Data,Bidir,PIN_191,4,B4_N0,,
-reset,Input,PIN_153,5,B5_N1,,
-VGA_B[2],Output,PIN_230,3,B3_N1,,
-VGA_B[1],Output,PIN_228,3,B3_N1,,
-VGA_B[0],Output,PIN_226,3,B3_N1,,
-VGA_G[2],Output,PIN_233,3,B3_N1,,
-VGA_G[1],Output,PIN_232,3,B3_N1,,
-VGA_G[0],Output,PIN_231,3,B3_N1,,
-VGA_R[2],Output,PIN_236,3,B3_N1,,
-VGA_R[1],Output,PIN_235,3,B3_N1,,
-VGA_R[0],Output,PIN_234,3,B3_N1,,
-vs,Output,PIN_238,3,B3_N1,,
-,Unknown,PIN_1,,,,
-,Unknown,PIN_2,,,,
-,Unknown,PIN_3,,,,
-,Unknown,PIN_4,2,B2_N0,,
-,Unknown,PIN_5,2,B2_N0,,
-,Unknown,PIN_6,2,B2_N0,,
-,Unknown,PIN_7,2,B2_N0,,
-,Unknown,PIN_8,2,B2_N0,,
-,Unknown,PIN_9,2,B2_N0,,
-,Unknown,PIN_10,2,,,
-,Unknown,PIN_11,2,B2_N0,,
-,Unknown,PIN_12,,,,
-,Unknown,PIN_13,2,B2_N0,,
-,Unknown,PIN_14,2,B2_N0,,
-,Unknown,PIN_15,2,B2_N1,,
-,Unknown,PIN_16,2,B2_N1,,
-,Unknown,PIN_17,,,,
-,Unknown,PIN_18,2,B2_N1,,
-,Unknown,PIN_19,2,,,
-,Unknown,PIN_20,2,B2_N1,,
-,Unknown,PIN_21,2,B2_N1,,
-,Unknown,PIN_22,2,B2_N1,,
-,Unknown,PIN_23,2,B2_N1,,
-,Unknown,PIN_24,2,B2_N1,,
-,Unknown,PIN_25,2,B2_N1,,
-,Unknown,PIN_26,2,B2_N1,,
-,Unknown,PIN_27,2,B2_N1,,
-,Unknown,PIN_28,,,,
-,Unknown,PIN_29,2,B2_N1,,
-,Unknown,PIN_31,2,B2_N1,,
-,Unknown,PIN_32,,,,
-,Unknown,PIN_33,2,B2_N1,,
-,Unknown,PIN_34,1,B1_N0,,
-,Unknown,PIN_35,1,B1_N0,,
-,Unknown,PIN_36,1,,,
-,Unknown,PIN_37,1,B1_N0,,
-,Unknown,PIN_38,1,B1_N0,,
-,Unknown,PIN_39,1,B1_N0,,
-,Unknown,PIN_40,,,,
-,Unknown,PIN_41,1,B1_N0,,
-,Unknown,PIN_42,1,B1_N0,,
-,Unknown,PIN_43,,,,
-,Unknown,PIN_44,1,B1_N0,,
-,Unknown,PIN_45,,,,
-,Unknown,PIN_46,1,B1_N1,,
-,Unknown,PIN_47,1,B1_N1,,
-,Unknown,PIN_48,,,,
-,Unknown,PIN_49,1,B1_N1,,
-,Unknown,PIN_50,1,B1_N1,,
-,Unknown,PIN_51,1,B1_N1,,
-,Unknown,PIN_52,1,B1_N1,,
-,Unknown,PIN_53,1,,,
-,Unknown,PIN_54,1,B1_N1,,
-,Unknown,PIN_55,1,B1_N1,,
-,Unknown,PIN_56,1,B1_N1,,
-,Unknown,PIN_57,1,B1_N1,,
-,Unknown,PIN_58,1,B1_N1,,
-,Unknown,PIN_59,,,,
-,Unknown,PIN_60,,,,
-,Unknown,PIN_61,,,,
-,Unknown,PIN_62,,,,
-,Unknown,PIN_63,,,,
-,Unknown,PIN_64,8,B8_N1,,
-,Unknown,PIN_65,8,B8_N1,,
-,Unknown,PIN_66,8,B8_N1,,
-,Unknown,PIN_67,8,B8_N1,,
-,Unknown,PIN_68,8,B8_N1,,
-,Unknown,PIN_69,8,,,
-,Unknown,PIN_70,8,B8_N1,,
-,Unknown,PIN_71,,,,
-,Unknown,PIN_72,8,B8_N1,,
-,Unknown,PIN_73,8,B8_N1,,
-,Unknown,PIN_74,,,,
-,Unknown,PIN_75,,,,
-,Unknown,PIN_76,,,,
-,Unknown,PIN_77,8,,,
-,Unknown,PIN_78,8,B8_N0,,
-,Unknown,PIN_79,8,B8_N0,,
-,Unknown,PIN_80,8,B8_N0,,
-,Unknown,PIN_81,,,,
-,Unknown,PIN_82,,,,
-,Unknown,PIN_83,8,,,
-,Unknown,PIN_84,8,B8_N0,,
-,Unknown,PIN_85,,,,
-,Unknown,PIN_86,8,B8_N0,,
-,Unknown,PIN_87,8,B8_N0,,
-,Unknown,PIN_88,8,B8_N0,,
-,Unknown,PIN_89,,,,
-,Unknown,PIN_90,8,B8_N0,,
-,Unknown,PIN_91,8,B8_N0,,
-,Unknown,PIN_92,8,B8_N0,,
-,Unknown,PIN_93,,,,
-,Unknown,PIN_94,7,B7_N1,,
-,Unknown,PIN_95,7,B7_N1,,
-,Unknown,PIN_96,7,B7_N1,,
-,Unknown,PIN_97,7,B7_N1,,
-,Unknown,PIN_98,,,,
-,Unknown,PIN_99,,,,
-,Unknown,PIN_100,7,B7_N1,,
-,Unknown,PIN_101,7,,,
-,Unknown,PIN_102,,,,
-,Unknown,PIN_103,,,,
-,Unknown,PIN_104,,,,
-,Unknown,PIN_105,7,B7_N1,,
-,Unknown,PIN_106,7,B7_N1,,
-,Unknown,PIN_107,,,,
-,Unknown,PIN_108,,,,
-,Unknown,PIN_109,7,B7_N0,,
-,Unknown,PIN_110,7,B7_N0,,
-,Unknown,PIN_111,7,B7_N0,,
-,Unknown,PIN_112,,,,
-,Unknown,PIN_113,7,B7_N0,,
-,Unknown,PIN_114,7,B7_N0,,
-,Unknown,PIN_115,7,,,
-,Unknown,PIN_116,7,B7_N0,,
-,Unknown,PIN_117,7,B7_N0,,
-,Unknown,PIN_118,7,B7_N0,,
-,Unknown,PIN_119,7,B7_N0,,
-,Unknown,PIN_120,,,,
-,Unknown,PIN_121,,,,
-,Unknown,PIN_122,,,,
-,Unknown,PIN_123,,,,
-,Unknown,PIN_124,,,,
-,Unknown,PIN_125,6,B6_N1,,
-,Unknown,PIN_126,6,B6_N1,,
-,Unknown,PIN_127,6,B6_N1,,
-,Unknown,PIN_128,6,B6_N1,,
-,Unknown,PIN_129,6,,,
-,Unknown,PIN_130,6,B6_N1,,
-,Unknown,PIN_131,6,B6_N1,,
-,Unknown,PIN_132,6,B6_N1,,
-,Unknown,PIN_133,,,,
-,Unknown,PIN_134,6,B6_N1,,
-,Unknown,PIN_135,6,B6_N1,,
-,Unknown,PIN_136,6,B6_N1,,
-,Unknown,PIN_137,6,B6_N1,,
-,Unknown,PIN_138,,,,
-,Unknown,PIN_139,6,B6_N0,,
-,Unknown,PIN_140,6,B6_N0,,
-,Unknown,PIN_141,6,B6_N0,,
-,Unknown,PIN_142,6,,,
-,Unknown,PIN_143,6,B6_N0,,
-,Unknown,PIN_144,6,B6_N0,,
-,Unknown,PIN_145,,,,
-,Unknown,PIN_146,6,B6_N0,,
-,Unknown,PIN_147,6,B6_N0,,
-,Unknown,PIN_148,,,,
-,Unknown,PIN_149,6,B6_N0,,
-,Unknown,PIN_150,6,B6_N0,,
-,Unknown,PIN_151,6,B6_N0,,
-,Unknown,PIN_152,,,,
-,Unknown,PIN_154,,,,
-,Unknown,PIN_155,5,B5_N1,,
-,Unknown,PIN_156,5,B5_N1,,
-,Unknown,PIN_157,5,B5_N1,,
-,Unknown,PIN_158,,,,
-,Unknown,PIN_159,5,B5_N1,,
-,Unknown,PIN_160,5,,,
-,Unknown,PIN_161,5,B5_N1,,
-,Unknown,PIN_162,5,B5_N1,,
-,Unknown,PIN_163,,,,
-,Unknown,PIN_164,5,B5_N1,,
-,Unknown,PIN_165,5,B5_N1,,
-,Unknown,PIN_166,5,B5_N1,,
-,Unknown,PIN_167,5,B5_N1,,
-,Unknown,PIN_168,5,B5_N1,,
-,Unknown,PIN_169,,,,
-,Unknown,PIN_170,5,B5_N0,,
-,Unknown,PIN_171,5,B5_N0,,
-,Unknown,PIN_172,,,,
-,Unknown,PIN_173,5,B5_N0,,
-,Unknown,PIN_174,5,B5_N0,,
-,Unknown,PIN_175,5,B5_N0,,
-,Unknown,PIN_176,5,,,
-,Unknown,PIN_177,5,B5_N0,,
-,Unknown,PIN_178,5,B5_N0,,
-,Unknown,PIN_179,,,,
-,Unknown,PIN_180,,,,
-,Unknown,PIN_181,,,,
-,Unknown,PIN_182,,,,
-,Unknown,PIN_183,,,,
-,Unknown,PIN_184,4,B4_N0,,
-,Unknown,PIN_185,4,B4_N0,,
-,Unknown,PIN_186,4,B4_N0,,
-,Unknown,PIN_187,4,B4_N0,,
-,Unknown,PIN_188,4,B4_N0,,
-,Unknown,PIN_189,4,B4_N0,,
-,Unknown,PIN_190,4,,,
-,Unknown,PIN_193,,,,
-,Unknown,PIN_196,,,,
-,Unknown,PIN_197,4,B4_N0,,
-,Unknown,PIN_198,,,,
-,Unknown,PIN_199,4,B4_N1,,
-,Unknown,PIN_200,4,B4_N1,,
-,Unknown,PIN_201,,,,
-,Unknown,PIN_202,,,,
-,Unknown,PIN_203,4,B4_N1,,
-,Unknown,PIN_204,,,,
-,Unknown,PIN_205,,,,
-,Unknown,PIN_206,,,,
-,Unknown,PIN_207,4,,,
-,Unknown,PIN_208,4,B4_N1,,
-,Unknown,PIN_209,4,B4_N1,,
-,Unknown,PIN_211,,,,
-,Unknown,PIN_212,3,B3_N0,,
-,Unknown,PIN_213,3,B3_N0,,
-,Unknown,PIN_214,3,B3_N0,,
-,Unknown,PIN_215,,,,
-,Unknown,PIN_216,3,B3_N0,,
-,Unknown,PIN_217,,,,
-,Unknown,PIN_218,3,B3_N0,,
-,Unknown,PIN_219,3,,,
-,Unknown,PIN_220,,,,
-,Unknown,PIN_221,,,,
-,Unknown,PIN_222,3,B3_N0,,
-,Unknown,PIN_223,3,B3_N0,,
-,Unknown,PIN_224,,,,
-,Unknown,PIN_225,,,,
-,Unknown,PIN_227,,,,
-,Unknown,PIN_229,3,,,
-,Unknown,PIN_239,,,,
-,Unknown,PIN_240,,,,
+To,Direction,Location,I/O Bank,Vref Group,I/O Standard,Reserved,Group,Current Strength
+click,Input,PIN_90,8,B8_N0,3.3-V LVTTL,,,24mA
+Clock100M_FPGAE,Input,PIN_210,4,B4_N1,3.3-V LVTTL,,,24mA
+hs,Output,PIN_237,3,B3_N1,3.3-V LVTTL,,,24mA
+PS2_keyboard_clk,Bidir,PIN_195,4,B4_N0,3.3-V LVTTL,,,24mA
+PS2_keyboard_Data,Bidir,PIN_194,4,B4_N0,3.3-V LVTTL,,,24mA
+PS2_mouse_clk,Bidir,PIN_192,4,B4_N0,3.3-V LVTTL,,,24mA
+PS2_mouse_Data,Bidir,PIN_191,4,B4_N0,3.3-V LVTTL,,,24mA
+reset,Input,PIN_153,5,B5_N1,3.3-V LVTTL,,,24mA
+seg0[6],Output,PIN_78,8,B8_N0,3.3-V LVTTL,,seg0[6..0],24mA
+seg0[5],Output,PIN_79,8,B8_N0,3.3-V LVTTL,,seg0[6..0],24mA
+seg0[4],Output,PIN_80,8,B8_N0,3.3-V LVTTL,,seg0[6..0],24mA
+seg0[3],Output,PIN_84,8,B8_N0,3.3-V LVTTL,,seg0[6..0],24mA
+seg0[2],Output,PIN_86,8,B8_N0,3.3-V LVTTL,,seg0[6..0],24mA
+seg0[1],Output,PIN_87,8,B8_N0,3.3-V LVTTL,,seg0[6..0],24mA
+seg0[0],Output,PIN_88,8,B8_N0,3.3-V LVTTL,,seg0[6..0],24mA
+seg1[6],Output,PIN_208,4,B4_N1,3.3-V LVTTL,,seg1[6..0],24mA
+seg1[5],Output,PIN_203,4,B4_N1,3.3-V LVTTL,,seg1[6..0],24mA
+seg1[4],Output,PIN_200,4,B4_N1,3.3-V LVTTL,,seg1[6..0],24mA
+seg1[3],Output,PIN_68,8,B8_N1,3.3-V LVTTL,,seg1[6..0],24mA
+seg1[2],Output,PIN_70,8,B8_N1,3.3-V LVTTL,,seg1[6..0],24mA
+seg1[1],Output,PIN_72,8,B8_N1,3.3-V LVTTL,,seg1[6..0],24mA
+seg1[0],Output,PIN_73,8,B8_N1,3.3-V LVTTL,,seg1[6..0],24mA
+seg2[6],Output,PIN_105,7,B7_N1,3.3-V LVTTL,,seg2[6..0],24mA
+seg2[5],Output,PIN_106,7,B7_N1,3.3-V LVTTL,,seg2[6..0],24mA
+seg2[4],Output,PIN_109,7,B7_N0,3.3-V LVTTL,,seg2[6..0],24mA
+seg2[3],Output,PIN_110,7,B7_N0,3.3-V LVTTL,,seg2[6..0],24mA
+seg2[2],Output,PIN_111,7,B7_N0,3.3-V LVTTL,,seg2[6..0],24mA
+seg2[1],Output,PIN_113,7,B7_N0,3.3-V LVTTL,,seg2[6..0],24mA
+seg2[0],Output,PIN_114,7,B7_N0,3.3-V LVTTL,,seg2[6..0],24mA
+seg3[6],Output,PIN_116,7,B7_N0,3.3-V LVTTL,,seg3[6..0],24mA
+seg3[5],Output,PIN_117,7,B7_N0,3.3-V LVTTL,,seg3[6..0],24mA
+seg3[4],Output,PIN_118,7,B7_N0,3.3-V LVTTL,,seg3[6..0],24mA
+seg3[3],Output,PIN_184,4,B4_N0,3.3-V LVTTL,,seg3[6..0],24mA
+seg3[2],Output,PIN_128,6,B6_N1,3.3-V LVTTL,,seg3[6..0],24mA
+seg3[1],Output,PIN_130,6,B6_N1,3.3-V LVTTL,,seg3[6..0],24mA
+seg3[0],Output,PIN_131,6,B6_N1,3.3-V LVTTL,,seg3[6..0],24mA
+seg4[6],Output,PIN_132,6,B6_N1,3.3-V LVTTL,,seg4[6..0],24mA
+seg4[5],Output,PIN_134,6,B6_N1,3.3-V LVTTL,,seg4[6..0],24mA
+seg4[4],Output,PIN_135,6,B6_N1,3.3-V LVTTL,,seg4[6..0],24mA
+seg4[3],Output,PIN_136,6,B6_N1,3.3-V LVTTL,,seg4[6..0],24mA
+seg4[2],Output,PIN_137,6,B6_N1,3.3-V LVTTL,,seg4[6..0],24mA
+seg4[1],Output,PIN_139,6,B6_N0,3.3-V LVTTL,,seg4[6..0],24mA
+seg4[0],Output,PIN_140,6,B6_N0,3.3-V LVTTL,,seg4[6..0],24mA
+seg5[6],Output,PIN_141,6,B6_N0,3.3-V LVTTL,,seg5[6..0],24mA
+seg5[5],Output,PIN_149,6,B6_N0,3.3-V LVTTL,,seg5[6..0],24mA
+seg5[4],Output,PIN_150,6,B6_N0,3.3-V LVTTL,,seg5[6..0],24mA
+seg5[3],Output,PIN_155,5,B5_N1,3.3-V LVTTL,,seg5[6..0],24mA
+seg5[2],Output,PIN_156,5,B5_N1,3.3-V LVTTL,,seg5[6..0],24mA
+seg5[1],Output,PIN_157,5,B5_N1,3.3-V LVTTL,,seg5[6..0],24mA
+seg5[0],Output,PIN_159,5,B5_N1,3.3-V LVTTL,,seg5[6..0],24mA
+seg6[6],Output,PIN_161,5,B5_N1,3.3-V LVTTL,,seg6[6..0],24mA
+seg6[5],Output,PIN_162,5,B5_N1,3.3-V LVTTL,,seg6[6..0],24mA
+seg6[4],Output,PIN_164,5,B5_N1,3.3-V LVTTL,,seg6[6..0],24mA
+seg6[3],Output,PIN_165,5,B5_N1,3.3-V LVTTL,,seg6[6..0],24mA
+seg6[2],Output,PIN_166,5,B5_N1,3.3-V LVTTL,,seg6[6..0],24mA
+seg6[1],Output,PIN_167,5,B5_N1,3.3-V LVTTL,,seg6[6..0],24mA
+seg6[0],Output,PIN_168,5,B5_N1,3.3-V LVTTL,,seg6[6..0],24mA
+seg_7[6],Output,PIN_170,5,B5_N0,3.3-V LVTTL,,seg_7[6..0],24mA
+seg_7[5],Output,PIN_171,5,B5_N0,3.3-V LVTTL,,seg_7[6..0],24mA
+seg_7[4],Output,PIN_173,5,B5_N0,3.3-V LVTTL,,seg_7[6..0],24mA
+seg_7[3],Output,PIN_174,5,B5_N0,3.3-V LVTTL,,seg_7[6..0],24mA
+seg_7[2],Output,PIN_175,5,B5_N0,3.3-V LVTTL,,seg_7[6..0],24mA
+seg_7[1],Output,PIN_177,5,B5_N0,3.3-V LVTTL,,seg_7[6..0],24mA
+seg_7[0],Output,PIN_178,5,B5_N0,3.3-V LVTTL,,seg_7[6..0],24mA
+VGA_B[2],Output,PIN_230,3,B3_N1,3.3-V LVTTL,,VGA_B[2..0],24mA
+VGA_B[1],Output,PIN_228,3,B3_N1,3.3-V LVTTL,,VGA_B[2..0],24mA
+VGA_B[0],Output,PIN_226,3,B3_N1,3.3-V LVTTL,,VGA_B[2..0],24mA
+VGA_G[2],Output,PIN_233,3,B3_N1,3.3-V LVTTL,,VGA_G[2..0],24mA
+VGA_G[1],Output,PIN_232,3,B3_N1,3.3-V LVTTL,,VGA_G[2..0],24mA
+VGA_G[0],Output,PIN_231,3,B3_N1,3.3-V LVTTL,,VGA_G[2..0],24mA
+VGA_R[2],Output,PIN_236,3,B3_N1,3.3-V LVTTL,,VGA_R[2..0],24mA
+VGA_R[1],Output,PIN_235,3,B3_N1,3.3-V LVTTL,,VGA_R[2..0],24mA
+VGA_R[0],Output,PIN_234,3,B3_N1,3.3-V LVTTL,,VGA_R[2..0],24mA
+vs,Output,PIN_238,3,B3_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_1,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_2,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_3,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_4,2,B2_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_5,2,B2_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_6,2,B2_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_7,2,B2_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_8,2,B2_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_9,2,B2_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_10,2,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_11,2,B2_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_12,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_13,2,B2_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_14,2,B2_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_15,2,B2_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_16,2,B2_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_17,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_18,2,B2_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_19,2,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_20,2,B2_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_21,2,B2_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_22,2,B2_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_23,2,B2_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_24,2,B2_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_25,2,B2_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_26,2,B2_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_27,2,B2_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_28,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_29,2,B2_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_30,2,B2_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_31,2,B2_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_32,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_33,2,B2_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_34,1,B1_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_35,1,B1_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_36,1,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_37,1,B1_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_38,1,B1_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_39,1,B1_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_40,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_41,1,B1_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_42,1,B1_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_43,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_44,1,B1_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_45,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_46,1,B1_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_47,1,B1_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_48,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_49,1,B1_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_50,1,B1_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_51,1,B1_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_52,1,B1_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_53,1,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_54,1,B1_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_55,1,B1_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_56,1,B1_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_57,1,B1_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_58,1,B1_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_59,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_60,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_61,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_62,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_63,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_64,8,B8_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_65,8,B8_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_66,8,B8_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_67,8,B8_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_69,8,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_71,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_74,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_75,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_76,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_77,8,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_81,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_82,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_83,8,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_85,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_89,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_91,8,B8_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_92,8,B8_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_93,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_94,7,B7_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_95,7,B7_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_96,7,B7_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_97,7,B7_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_98,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_99,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_100,7,B7_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_101,7,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_102,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_103,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_104,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_107,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_108,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_112,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_115,7,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_119,7,B7_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_120,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_121,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_122,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_123,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_124,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_125,6,B6_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_126,6,B6_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_127,6,B6_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_129,6,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_133,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_138,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_142,6,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_143,6,B6_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_144,6,B6_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_145,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_146,6,B6_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_147,6,B6_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_148,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_151,6,B6_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_152,6,B6_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_154,5,B5_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_158,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_160,5,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_163,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_169,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_172,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_176,5,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_179,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_180,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_181,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_182,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_183,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_185,4,B4_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_186,4,B4_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_187,4,B4_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_188,4,B4_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_189,4,B4_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_190,4,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_193,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_196,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_197,4,B4_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_198,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_199,4,B4_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_201,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_202,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_204,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_205,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_206,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_207,4,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_209,4,B4_N1,3.3-V LVTTL,,,24mA
+,Unknown,PIN_211,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_212,3,B3_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_213,3,B3_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_214,3,B3_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_215,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_216,3,B3_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_217,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_218,3,B3_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_219,3,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_220,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_221,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_222,3,B3_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_223,3,B3_N0,3.3-V LVTTL,,,24mA
+,Unknown,PIN_224,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_225,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_227,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_229,3,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_239,,,3.3-V LVTTL,,,24mA
+,Unknown,PIN_240,,,3.3-V LVTTL,,,24mA

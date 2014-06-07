@@ -6,7 +6,7 @@ use work.GlobalDefines.all;
 entity Wordpad is
     port (
         Clock100M_FPGAE : in std_logic;  --100MHz
-        click : in std_logic;
+        click           : in std_logic;
         reset           : in std_logic;
 
         PS2_keyboard_clk  : inout std_logic;
@@ -22,29 +22,29 @@ entity Wordpad is
         VGA_G : out std_logic_vector(2 downto 0);
         VGA_R : out std_logic_vector(2 downto 0);
 
-        debug :inout std_logic_vector(7 downto 0)
+        seg0, seg1, seg2, seg3, seg4, seg5, seg6, seg_7 : out std_logic_vector(6 downto 0)
         ) ;
 end entity;  -- MasterController
 
 architecture arch of Wordpad is
-	component KeyScanner is
-		port (
-		clk			:	in std_logic;			--100MHz
-		reset		:	in std_logic;
-		PS2clk		:	inout std_logic;
-		PS2Data		:	in std_logic;
+    component KeyScanner is
+        port (
+            clk     : in    std_logic;  --100MHz
+            reset   : in    std_logic;
+            PS2clk  : inout std_logic;
+            PS2Data : in    std_logic;
 
-		keyClk		:	out	std_logic;
-		ascii :  out STD_LOGIC_VECTOR(7 DOWNTO 0);
-		scancode : out STD_LOGIC_VECTOR(7 DOWNTO 0)
-		);
-	end component;
-	component KeyboardSimulator is
-		port (
-			clk  : in  std_logic;
-			evt  : buffer EventT
-			);
-	end component;
+            keyClk   : out std_logic;
+            ascii    : out std_logic_vector(7 downto 0);
+            scancode : out std_logic_vector(7 downto 0)
+            );
+    end component;
+    component KeyboardSimulator is
+        port (
+            clk : in     std_logic;
+            evt : buffer EventT
+            );
+    end component;
     component ps2_mouse is
         port(
             clk_in        : in     std_logic;
@@ -61,50 +61,48 @@ architecture arch of Wordpad is
     end component;
     component TextProcessor is
         port(
-        rst, clk                    : in     std_logic;
-        --mouse in
-        left_button   : in     std_logic;
-        right_button  : in     std_logic;
-        middle_button : in     std_logic;
-        mousex        : in     XCoordinate;
-        mousey        : in     YCoordinate;
-        error_no_ack  : in     std_logic;
-        mouse_pos : 	in CharPos;
-        --keyboard in
-		keyClk		:	in	std_logic;
-		ascii		:	in ASCII;
-        --vga in
-        x_pos         : in     XCoordinate;
-        y_pos         : in     YCoordinate;
-        sel_begin, sel_end : buffer CharPos;
-        sel_mode : 			buffer SelMode;
-        txt                         : buffer TextArea;
-        cursor                      : buffer CharPos
+            rst, clk           : in     std_logic;
+            --mouse in
+            left_button        : in     std_logic;
+            right_button       : in     std_logic;
+            middle_button      : in     std_logic;
+            mousex             : in     XCoordinate;
+            mousey             : in     YCoordinate;
+            error_no_ack       : in     std_logic;
+            mouse_pos          : in     CharPos;
+            --keyboard in
+            keyClk             : in     std_logic;
+            ascii              : in     ASCII;
+            --vga in
+            x_pos              : in     XCoordinate;
+            y_pos              : in     YCoordinate;
+            sel_begin, sel_end : buffer CharPos := 0;
+            txt                : buffer TextArea;
+            cursor             : buffer CharPos := 0
             );
     end component;
 
     component TextDisplayer is
         port (
-        clk_100       : in     std_logic;
-        reset         : in     std_logic;
-        --text information
-        txt           : in     TextArea;
-        cursor        : in     CharPos;
-        sel_begin, sel_end : in CharPos;
-        sel_mode : in SelMode;
-        --mouse
-        mousex        : in     XCoordinate;
-        mousey        : in     YCoordinate;
-        error_no_ack  : in     std_logic;
-        mouse_pos 	:   buffer    CharPos;
+            clk_100            : in     std_logic;
+            reset              : in     std_logic;
+            --text information
+            txt                : in     TextArea;
+            cursor             : in     CharPos;
+            sel_begin, sel_end : in     CharPos;
+            --mouse
+            mousex             : in     XCoordinate;
+            mousey             : in     YCoordinate;
+            error_no_ack       : in     std_logic;
+            mouse_pos          : buffer CharPos;
 
-        --display output
-        x_pos         : in     XCoordinate;
-        y_pos         : in     YCoordinate;
-        rgb           : out    RGBColor;
-        --rom interaction
-        rom_address   : out    CharRomPtr;
-        rom_data      : in     std_logic_vector (0 to 15)
+            --display output
+            x_pos       : in  XCoordinate;
+            y_pos       : in  YCoordinate;
+            rgb         : out RGBColor;
+            --rom interaction
+            rom_address : out CharRomPtr;
+            rom_data    : in  std_logic_vector (0 to 15)
             );
     end component;
 
@@ -131,20 +129,11 @@ architecture arch of Wordpad is
     end component;
 
     component seg7 is
-port(
-code: in std_logic_vector(3 downto 0);
-seg_out : out std_logic_vector(6 downto 0)
-);
-end component;
-
-    component Keyboard is
-port (
-	datain, clkin : in std_logic ; -- PS2 clk and data
-	fclk, rst : in std_logic ;  -- filter clock
-	fok : buffer std_logic ;  -- data output enable signal
-	scancode : out std_logic_vector(7 downto 0) -- scan code signal output
-	) ;
-end component ;
+        port(
+            code    : in  std_logic_vector(3 downto 0);
+            seg_out : out std_logic_vector(6 downto 0)
+            );
+    end component;
 
     signal keyboard_event, mouse_event                            : EventT;
     signal left_button, right_button, middle_button, error_no_ack : std_logic;
@@ -152,31 +141,43 @@ end component ;
     signal mousex, x_pos                                          : XCoordinate;
     signal mousey, y_pos                                          : YCoordinate;
     signal txt                                                    : TextArea;
-    signal cursor, mouse_pos                                                 : CharPos;
+    signal cursor, mouse_pos                                      : CharPos;
     signal rom_address                                            : CharRomPtr;
     signal rom_data                                               : std_logic_vector(15 downto 0);
     signal rgb                                                    : RGBColor;
-    signal keyClk : std_logic;
-    signal ascii_int : ASCII;
-    signal ascii, scancode : STD_LOGIC_VECTOR(7 DOWNTO 0);
-	signal sel_begin, sel_end : CharPos;
-	signal sel_mode :  SelMode;
+    signal keyClk                                                 : std_logic;
+    signal ascii_int                                              : ASCII;
+    signal ascii, scancode, total_event_slv, txt_len              : std_logic_vector(7 downto 0);
+    signal sel_begin, sel_end                                     : CharPos;
 
 begin
+--u0: Keyboard port map(PS2_keyboard_Data,PS2_keyboard_clk,Clock100M_FPGAE,reset,scancode);
+    u1 : seg7 port map(ascii(3 downto 0), seg0);    --show keyboard
+    u2 : seg7 port map(ascii(7 downto 4), seg1);
+    u3 : seg7 port map(std_logic_vector(to_unsigned(cursor, 4)), seg2);  --cursor
+    u4 : seg7 port map(txt_len(7 downto 4), seg3);  --txt len
+    u5 : seg7 port map(txt_len(3 downto 0), seg4);
 
-    mousex <= to_integer(unsigned(mousex_slv));
-    mousey <= to_integer(unsigned(mousey_slv));
+    txt_len <= std_logic_vector(to_unsigned(txt.len, 8));
+
+    seg5(6 downto 1) <= "111111";       --for debug
+    seg5(0)          <= keyClk;
+
+    mousex    <= to_integer(unsigned(mousex_slv));
+    mousey    <= to_integer(unsigned(mousey_slv));
     ascii_int <= to_integer(unsigned(ascii));
-    debug <= scancode;
+
+    --keyClk <= (not click);
+
     m1 : KeyScanner port map(
-        	clk	=> Clock100M_FPGAE,
-			reset => reset,
-			PS2clk	=> PS2_keyboard_clk,
-			PS2Data	=> PS2_keyboard_Data,
-			keyClk => keyClk,
-			ascii => ascii,
-			scancode => scancode
-			);
+        clk      => Clock100M_FPGAE,
+        reset    => reset,
+        PS2clk   => PS2_keyboard_clk,
+        PS2Data  => PS2_keyboard_Data,
+        keyClk   => keyClk ,
+        ascii    => ascii,
+        scancode => scancode
+        );
 
 --    m1 : KeyboardSimulator port map(
 --        clk  => click,
@@ -195,47 +196,45 @@ begin
         error_no_ack  => error_no_ack);
 
     m3 : TextProcessor port map(
-        clk            => Clock100M_FPGAE,
-        rst            => reset,
+        clk           => Clock100M_FPGAE,
+        rst           => reset,
         left_button   => left_button,
         right_button  => right_button,
         middle_button => middle_button,
         mousex        => mousex,
         mousey        => mousey,
         error_no_ack  => error_no_ack,
-        mouse_pos => mouse_pos,
-		keyClk	=> keyClk,
-		ascii => ascii_int,
+        mouse_pos     => mouse_pos,
+        keyClk        => keyClk,
+        ascii         => ascii_int,
         x_pos         => x_pos,
         y_pos         => y_pos,
-        sel_begin => sel_begin,
-		sel_end => sel_end,
-        sel_mode => sel_mode,
-        txt            => txt,
-        cursor         => cursor
+        sel_begin     => sel_begin,
+        sel_end       => sel_end,
+        txt           => txt,
+        cursor        => cursor
         );
 
     m4 : TextDisplayer port map(
-        clk_100       => Clock100M_FPGAE,
-        reset         => reset,
+        clk_100      => Clock100M_FPGAE,
+        reset        => reset,
         --text information
-        txt           => txt,
-        cursor        => cursor,
-        sel_begin => sel_begin,
-		sel_end => sel_end,
-        sel_mode => sel_mode,
+        txt          => txt,
+        cursor       => cursor,
+        sel_begin    => sel_begin,
+        sel_end      => sel_end,
         --mouse
-        mousex        => mousex,
-        mousey        => mousey,
-        error_no_ack  => error_no_ack,
-        mouse_pos => mouse_pos,
+        mousex       => mousex,
+        mousey       => mousey,
+        error_no_ack => error_no_ack,
+        mouse_pos    => mouse_pos,
         --display output
-        x_pos         => x_pos,
-        y_pos         => y_pos,
-        rgb           => rgb,
+        x_pos        => x_pos,
+        y_pos        => y_pos,
+        rgb          => rgb,
         --rom interaction
-        rom_address   => rom_address,
-        rom_data      => rom_data
+        rom_address  => rom_address,
+        rom_data     => rom_data
         );
 
     m5 : VGADisplayer port map(
