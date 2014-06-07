@@ -21,7 +21,7 @@ entity Wordpad is
         VGA_B : out std_logic_vector(2 downto 0);
         VGA_G : out std_logic_vector(2 downto 0);
         VGA_R : out std_logic_vector(2 downto 0);
-        
+
         debug :inout std_logic_vector(7 downto 0)
         ) ;
 end entity;  -- MasterController
@@ -129,7 +129,7 @@ architecture arch of Wordpad is
                 q       : out std_logic_vector (15 downto 0)
                 );
     end component;
-    
+
     component seg7 is
 port(
 code: in std_logic_vector(3 downto 0);

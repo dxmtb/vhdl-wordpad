@@ -12,19 +12,23 @@ entity KeyScanner is
 		PS2clk		:	inout std_logic;
 		PS2Data		:	in std_logic;
 
+		err			:	out std_logic;
 		keyClk		:	out	std_logic;
-		ascii :  out STD_LOGIC_VECTOR(7 DOWNTO 0);
-		scancode : out STD_LOGIC_VECTOR(7 DOWNTO 0)
+		ascii :  out STD_LOGIC_VECTOR(7 DOWNTO 0)
 	);
 end entity;
 -------------------------------------------------------------------------------------
 architecture behavior of KeyScanner is
-	component Keyboard is
+	component PS2KBInterface is
 		port (
-	datain, clkin : in std_logic ; -- PS2 clk and data
-	fclk, rst : in std_logic ;  -- filter clock
-	fok : buffer std_logic ;  -- data output enable signal
-	scancode : out std_logic_vector(7 downto 0) -- scan code signal output
+			clk			:	in std_logic;		--1MHz
+			reset		:	in std_logic;
+			PS2clk		:	inout std_logic;
+			PS2Data		:	in std_logic;
+
+			received	:	buffer std_logic;
+			data		:	buffer std_logic_vector(7 downto 0);
+			err			:	buffer std_logic
 		);
 	end component;
 
@@ -37,15 +41,15 @@ architecture behavior of KeyScanner is
 	signal shifted		:	boolean;
 -------------------------------------------------------------------------------------
 begin
-	scancode <= data;
 -------------------------------------------------------------------------------------
-	interface	:	Keyboard port map	(
-		datain => PS2Data,
-		clkin => PS2clk,
-		fclk => clk,
-		rst => reset,
-		fok => received,
-		scancode =>	data
+	interface	:	PS2KBInterface port map	(
+		clk			=>	clk1,
+		reset		=>	reset,
+		PS2clk		=>	PS2clk,
+		PS2Data		=>	PS2Data,
+		received	=>	received,
+		data		=>	data,
+		err			=>	err
 	);
 -------------------------------------------------------------------------------------
 	process(clk, reset) begin
@@ -90,7 +94,7 @@ begin
 					  END CASE;
 					if shifted then
 
-						CASE data IS
+						CASE data IS              
 						  WHEN x"1C" => ascii <= x"41"; --A
 						  WHEN x"32" => ascii <= x"42"; --B
 						  WHEN x"21" => ascii <= x"43"; --C
@@ -120,7 +124,7 @@ begin
 						  WHEN OTHERS => prepare <= '0';
 						END CASE;
 					else
-						CASE data IS
+						CASE data IS              
 						  WHEN x"1C" => ascii <= x"61"; --a
 						  WHEN x"32" => ascii <= x"62"; --b
 						  WHEN x"21" => ascii <= x"63"; --c
