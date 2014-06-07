@@ -135,7 +135,6 @@ architecture arch of Wordpad is
             );
     end component;
 
-    signal keyboard_event, mouse_event                            : EventT;
     signal left_button, right_button, middle_button, error_no_ack : std_logic;
     signal mousex_slv, mousey_slv                                 : std_logic_vector(9 downto 0);
     signal mousex, x_pos                                          : XCoordinate;
@@ -147,7 +146,7 @@ architecture arch of Wordpad is
     signal rgb                                                    : RGBColor;
     signal keyClk                                                 : std_logic;
     signal ascii_int                                              : ASCII;
-    signal ascii, scancode, total_event_slv, txt_len              : std_logic_vector(7 downto 0);
+    signal ascii, scancode, txt_len              : std_logic_vector(7 downto 0);
     signal sel_begin, sel_end                                     : CharPos;
 
 begin
