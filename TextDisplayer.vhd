@@ -10,14 +10,13 @@ entity TextDisplayer is
         --text information
         txt           : in     TextArea;
         cursor        : in     CharPos;
+        sel_begin, sel_end : in CharPos;
+        sel_mode : in SelMode;
         --mouse
-        left_button   : in     std_logic;
-        right_button  : in     std_logic;
-        middle_button : in     std_logic;
         mousex        : in     XCoordinate;
         mousey        : in     YCoordinate;
         error_no_ack  : in     std_logic;
-        mouse_pos 	:   out    CharPos;
+        mouse_pos 	:   buffer    CharPos;
         --display output
         x_pos         : in     XCoordinate;
         y_pos         : in     YCoordinate;
@@ -39,24 +38,14 @@ architecture arch of TextDisplayer is
     signal first_char                           : CharPos := 0;
     signal flash_counter : integer range 0 to 127;
     signal show_cursor : std_logic;
-    signal sel_begin, sel_end : CharPos := 0;
-    signal my_mouse_pos : CharPos;
-
-    type SelMode is (NO, BEGIN_SEL, END_SEL);
-    signal sel_mode : SelMode := NO;
-
-    constant VGA_HEIGHT : integer := 480;
-    constant VGA_WIDTH  : integer := 640;
 
 begin
-    button       <= not error_no_ack and right_button;
     clk          <= clk_100;
     current_char <= txt.str(current_char_pos);
     R            <= L + getWidth(current_char);
     D <= U + 16;
     rom_address <= memAddr(current_char, row-U);
     show_cursor <= '1' when flash_counter < 64 else '0';
-    mouse_pos <= my_mouse_pos;
 
     process(clk, reset)
         --variable tmp_pos : CharPos;
@@ -105,30 +94,14 @@ begin
 	process(clk, reset)
 	begin
 		if reset = '0' then
-			my_mouse_pos <= 0;
+			mouse_pos <= 0;
 		elsif clk'event and clk = '1' then
 			if x_pos = mousex and y_pos = mousey and current_char_pos /= txt.len then
-				my_mouse_pos <= current_char_pos;
+				mouse_pos <= current_char_pos;
 			end if;
 		end if;
 	end process;
 
-	process(button)
-	begin
-		if button'event and button = '1' and mousey >= BOUND and my_mouse_pos < txt.len then
-			case sel_mode is
-			when NO =>
-				sel_begin <= my_mouse_pos;
-				sel_end <= my_mouse_pos;
-				sel_mode <= BEGIN_SEL;
-			when END_SEL =>
-				sel_mode <= NO;
-			when BEGIN_SEL =>
-				sel_end <= my_mouse_pos;
-				sel_mode <= END_SEL;
-			end case;
-		end if;
-	end process;
 
     process(x_pos, y_pos, rom_data, L, current_char)
     begin
@@ -138,23 +111,26 @@ begin
 			rgb <= COLOR_BLACK;
         elsif y_pos < BOUND then --draw buttons
             rgb <= COLOR_BLUE;
-			if y_pos >= 10 and y_pos < 45 then
+			if y_pos >= Button_Font_Size_Y_START and y_pos < Button_Font_Size_Y_END then
 				--Font and Size
-				if x_pos >= 10 and x_pos < 60 then
+				if x_pos >= Button_Small_X_Start and x_pos < Button_Small_X_End then
 					rgb <= COLOR_RED;
-				elsif x_pos >= 80 and x_pos < 130 then
+				elsif x_pos >= Button_Big_X_Start and x_pos < Button_Big_X_End then
 					rgb <= COLOR_RED;
-				elsif x_pos >= 150 and x_pos < 200 then
+				elsif x_pos >= Button_Font1_X_Start and x_pos < Button_Font1_X_End then
 					rgb <= COLOR_RED;
-				elsif x_pos >= 220 and x_pos < 270 then
+				elsif x_pos >= Button_Font2_X_Start and x_pos < Button_Font2_X_End then
 					rgb <= COLOR_RED;
 				end if;
-			elsif y_pos >= 55 and y_pos < 90 then
-				if x_pos >= 10 and x_pos < 60 then
-					rgb <= COLOR_BLACK;
-				elsif x_pos >= 80 and x_pos < 130 then
-					rgb <= COLOR_BLUE;
-				elsif x_pos >= 400 and x_pos < 445 then
+			elsif y_pos >= Button_Color_Y_START and y_pos < Button_Color_Y_END then
+				for I in 0 to ALL_COLOR'length - 1 loop
+					if x_pos >= Button_Color_X_Start + I * (Button_Color_X_Width+Button_Color_X_Dis) and
+						x_pos < Button_Color_X_Start + 
+						I * (Button_Color_X_Width+Button_Color_X_Dis) + Button_Color_X_Width then
+						rgb <= ALL_COLOR(I);
+					end if;
+				end loop;
+				if x_pos >= 400 and x_pos < 445 then
 					case sel_mode is
 					when NO =>
 						rgb <= COLOR_CYAN;

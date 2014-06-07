@@ -20,20 +20,23 @@ entity Wordpad is
 
         VGA_B : out std_logic_vector(2 downto 0);
         VGA_G : out std_logic_vector(2 downto 0);
-        VGA_R : out std_logic_vector(2 downto 0);
-
-        error  : out std_logic
+        VGA_R : out std_logic_vector(2 downto 0)
         ) ;
 end entity;  -- MasterController
 
 architecture arch of Wordpad is
-    component KeyboardListener is
-        port(
-            clk  : inout  std_logic;
-            data : inout  std_logic;
-            evt  : buffer EventT
-            );
-    end component;
+	component KeyScanner is
+		port (
+		clk			:	in std_logic;			--100MHz
+		reset		:	in std_logic;
+		PS2clk		:	inout std_logic;
+		PS2Data		:	in std_logic;
+
+		err			:	out std_logic;
+		keyClk		:	out	std_logic;
+		ascii :  out STD_LOGIC_VECTOR(7 DOWNTO 0)
+		);
+	end component;
 	component KeyboardSimulator is
 		port (
 			clk  : in  std_logic;
@@ -57,16 +60,25 @@ architecture arch of Wordpad is
     component TextProcessor is
         port(
         rst, clk                    : in     std_logic;
+        --mouse in
         left_button   : in     std_logic;
         right_button  : in     std_logic;
         middle_button : in     std_logic;
         mousex        : in     XCoordinate;
         mousey        : in     YCoordinate;
         error_no_ack  : in     std_logic;
-        mouse_pos : in CharPos;
-        txt                         : inout    TextArea;
-        keyboard_event, mouse_event : inout EventT;
-        cursor                      : out CharPos
+        mouse_pos : 	in CharPos;
+        --keyboard in
+		err			:	in std_logic;
+		keyClk		:	in	std_logic;
+		ascii		:	in ASCII;
+        --vga in
+        x_pos         : in     XCoordinate;
+        y_pos         : in     YCoordinate;
+        sel_begin, sel_end : buffer CharPos;
+        sel_mode : 			buffer SelMode;       
+        txt                         : buffer TextArea;
+        cursor                      : buffer CharPos
             );
     end component;
 
@@ -77,14 +89,14 @@ architecture arch of Wordpad is
         --text information
         txt           : in     TextArea;
         cursor        : in     CharPos;
+        sel_begin, sel_end : in CharPos;
+        sel_mode : in SelMode;
         --mouse
-        left_button   : in     std_logic;
-        right_button  : in     std_logic;
-        middle_button : in     std_logic;
         mousex        : in     XCoordinate;
         mousey        : in     YCoordinate;
         error_no_ack  : in     std_logic;
-        mouse_pos 	: out CharPos;
+        mouse_pos 	:   buffer    CharPos;
+        
         --display output
         x_pos         : in     XCoordinate;
         y_pos         : in     YCoordinate;
@@ -127,19 +139,29 @@ architecture arch of Wordpad is
     signal rom_address                                            : CharRomPtr;
     signal rom_data                                               : std_logic_vector(15 downto 0);
     signal rgb                                                    : RGBColor;
+    signal keyClk, error : std_logic;
+    signal ascii_int : ASCII;
+    signal ascii : STD_LOGIC_VECTOR(7 DOWNTO 0);
+	signal sel_begin, sel_end : CharPos;
+	signal sel_mode :  SelMode;
 
 begin
-    error  <= '1';
     mousex <= to_integer(unsigned(mousex_slv));
     mousey <= to_integer(unsigned(mousey_slv));
---    m1 : KeyboardListener port map(
---        clk  => PS2_keyboard_clk,
---        data => PS2_keyboard_Data,
---        evt  => keyboard_event);
+    ascii_int <= to_integer(unsigned(ascii));
+    m1 : KeyScanner port map(
+        	clk	=> Clock100M_FPGAE, 
+			reset => reset,
+			PS2clk	=> PS2_keyboard_clk,
+			PS2Data	=> PS2_keyboard_Data,
+			err	=> error,
+			keyClk => keyClk,
+			ascii => ascii
+			);
 
-    m1 : KeyboardSimulator port map(
-        clk  => click,
-        evt  => keyboard_event);
+--    m1 : KeyboardSimulator port map(
+--        clk  => click,
+--        evt  => keyboard_event);
 
     m2 : ps2_mouse port map(
         clk_in        => Clock100M_FPGAE,
@@ -163,9 +185,15 @@ begin
         mousey        => mousey,
         error_no_ack  => error_no_ack,
         mouse_pos => mouse_pos,
+        err	=> error,
+		keyClk	=> keyClk,
+		ascii => ascii_int,
+        x_pos         => x_pos,
+        y_pos         => y_pos,  
+        sel_begin => sel_begin,
+		sel_end => sel_end,
+        sel_mode => sel_mode,
         txt            => txt,
-        keyboard_event => keyboard_event,
-        mouse_event    => mouse_event,
         cursor         => cursor
         );
 
@@ -175,10 +203,10 @@ begin
         --text information
         txt           => txt,
         cursor        => cursor,
+        sel_begin => sel_begin,
+		sel_end => sel_end,
+        sel_mode => sel_mode,
         --mouse
-        left_button   => left_button,
-        right_button  => right_button,
-        middle_button => middle_button,
         mousex        => mousex,
         mousey        => mousey,
         error_no_ack  => error_no_ack,

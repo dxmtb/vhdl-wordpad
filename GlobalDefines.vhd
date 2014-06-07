@@ -6,16 +6,25 @@ package GlobalDefines is
     type EventType is (
         NONE,
         MOVE_CURSOR,
+        MOVE_FIRST,
         INSERT_CHAR_AT_CURSOR,
-        DELETE_AT_CURSOR
+        DELETE_AT_CURSOR,
+        SET_FORMAT
         );
-    subtype ArgsType is integer range 0 to 255;
+    subtype ASCII is integer range 0 to 127;
     type    EventT is record
         e_type : EventType;
-        args   : ArgsType;
+        ascii   : ASCII;
+        format_type : integer range 0 to 2;
+        format : integer range 0 to 7;
+        id : integer;
     end record;
+    
+    type SelMode is (NO, BEGIN_SEL, END_SEL);
 
     constant BOUND  : integer := 100;
+    constant VGA_HEIGHT : integer := 480;
+    constant VGA_WIDTH  : integer := 640;
 
     subtype XCoordinate is integer range 0 to 800;
     subtype YCoordinate is integer range 0 to 600;

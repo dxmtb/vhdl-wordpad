@@ -16,7 +16,7 @@ begin
     begin
 		if clk = '0' then
 			evt.e_type <= INSERT_CHAR_AT_CURSOR;
-			evt.args   <= 73;
+			evt.ascii   <= 73;
 		else
 			evt.e_type <= NONE;
 		end if;
