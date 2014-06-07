@@ -8,7 +8,9 @@ entity TextDisplayer is
         clk_100            : in     std_logic;
         reset              : in     std_logic;
         --text information
-        txt                : in     TextArea;
+        ram_address			: out TxtRamPtr;
+        ram_data 			: in STD_LOGIC_VECTOR (15 DOWNTO 0);
+        txt_len				: in CharPos;
         cursor             : in     CharPos;
         sel_begin, sel_end : in     CharPos;
         --mouse
@@ -40,7 +42,7 @@ architecture arch of TextDisplayer is
 
 begin
     clk          <= clk_100;
-    current_char <= txt.str(current_char_pos);
+    current_char <= raw2char(ram_data);
     R            <= L + getWidth(current_char);
     D            <= U + 16;
     rom_address <= std_logic_vector(to_unsigned(SizeShift(current_char.size) + (FontShift(current_char.font)*128+current_char.code)*SizeToPixel(current_char.size)
@@ -68,7 +70,7 @@ begin
                     elsif y_pos = row then
                         if L /= R and x_pos >= R then
                             L <= R;
-                            if current_char_pos < txt.len and current_char.code /= 13 then
+                            if current_char_pos < txt_len and current_char.code /= 13 then
                                 current_char_pos := current_char_pos + 1;
                             end if;
                                         --right_char <= current_char_pos;
@@ -80,7 +82,7 @@ begin
                             current_char_pos := left_char;
                         else            --y_pos >= high new line of chars
                             U <= D;
-                            if current_char_pos < txt.len then
+                            if current_char_pos < txt_len then
                                 current_char_pos := current_char_pos + 1;
                             end if;
                             left_char := current_char_pos;
@@ -96,7 +98,7 @@ begin
         if reset = '0' then
             mouse_pos <= 0;
         elsif clk'event and clk = '1' then
-            if x_pos = mousex and y_pos = mousey and current_char_pos /= txt.len then
+            if x_pos = mousex and y_pos = mousey and current_char_pos /= txt_len then
                 mouse_pos <= current_char_pos;
             end if;
         end if;
@@ -133,7 +135,7 @@ begin
             end if;
         elsif show_cursor = '1' and current_char_pos = cursor and (x_pos = L or x_pos = L + 1) then  --draw cursor
             rgb <= COLOR_BLACK;
-        elsif current_char_pos < txt.len and x_pos - L < getWidth(current_char) then  --draw char
+        elsif current_char_pos < txt_len and x_pos - L < getWidth(current_char) then  --draw char
             if rom_data(x_pos-L) = '0' then
                 if current_char_pos >= sel_begin and current_char_pos < sel_end then
                     rgb <= COLOR_BLACK;
