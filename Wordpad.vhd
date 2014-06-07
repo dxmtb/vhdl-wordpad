@@ -20,7 +20,9 @@ entity Wordpad is
 
         VGA_B : out std_logic_vector(2 downto 0);
         VGA_G : out std_logic_vector(2 downto 0);
-        VGA_R : out std_logic_vector(2 downto 0)
+        VGA_R : out std_logic_vector(2 downto 0);
+        
+        debug :inout std_logic_vector(7 downto 0)
         ) ;
 end entity;  -- MasterController
 
@@ -32,9 +34,9 @@ architecture arch of Wordpad is
 		PS2clk		:	inout std_logic;
 		PS2Data		:	in std_logic;
 
-		err			:	out std_logic;
 		keyClk		:	out	std_logic;
-		ascii :  out STD_LOGIC_VECTOR(7 DOWNTO 0)
+		ascii :  out STD_LOGIC_VECTOR(7 DOWNTO 0);
+		scancode : out STD_LOGIC_VECTOR(7 DOWNTO 0)
 		);
 	end component;
 	component KeyboardSimulator is
@@ -69,14 +71,13 @@ architecture arch of Wordpad is
         error_no_ack  : in     std_logic;
         mouse_pos : 	in CharPos;
         --keyboard in
-		err			:	in std_logic;
 		keyClk		:	in	std_logic;
 		ascii		:	in ASCII;
         --vga in
         x_pos         : in     XCoordinate;
         y_pos         : in     YCoordinate;
         sel_begin, sel_end : buffer CharPos;
-        sel_mode : 			buffer SelMode;       
+        sel_mode : 			buffer SelMode;
         txt                         : buffer TextArea;
         cursor                      : buffer CharPos
             );
@@ -96,7 +97,7 @@ architecture arch of Wordpad is
         mousey        : in     YCoordinate;
         error_no_ack  : in     std_logic;
         mouse_pos 	:   buffer    CharPos;
-        
+
         --display output
         x_pos         : in     XCoordinate;
         y_pos         : in     YCoordinate;
@@ -128,6 +129,22 @@ architecture arch of Wordpad is
                 q       : out std_logic_vector (15 downto 0)
                 );
     end component;
+    
+    component seg7 is
+port(
+code: in std_logic_vector(3 downto 0);
+seg_out : out std_logic_vector(6 downto 0)
+);
+end component;
+
+    component Keyboard is
+port (
+	datain, clkin : in std_logic ; -- PS2 clk and data
+	fclk, rst : in std_logic ;  -- filter clock
+	fok : buffer std_logic ;  -- data output enable signal
+	scancode : out std_logic_vector(7 downto 0) -- scan code signal output
+	) ;
+end component ;
 
     signal keyboard_event, mouse_event                            : EventT;
     signal left_button, right_button, middle_button, error_no_ack : std_logic;
@@ -139,24 +156,26 @@ architecture arch of Wordpad is
     signal rom_address                                            : CharRomPtr;
     signal rom_data                                               : std_logic_vector(15 downto 0);
     signal rgb                                                    : RGBColor;
-    signal keyClk, error : std_logic;
+    signal keyClk : std_logic;
     signal ascii_int : ASCII;
-    signal ascii : STD_LOGIC_VECTOR(7 DOWNTO 0);
+    signal ascii, scancode : STD_LOGIC_VECTOR(7 DOWNTO 0);
 	signal sel_begin, sel_end : CharPos;
 	signal sel_mode :  SelMode;
 
 begin
+
     mousex <= to_integer(unsigned(mousex_slv));
     mousey <= to_integer(unsigned(mousey_slv));
     ascii_int <= to_integer(unsigned(ascii));
+    debug <= scancode;
     m1 : KeyScanner port map(
-        	clk	=> Clock100M_FPGAE, 
+        	clk	=> Clock100M_FPGAE,
 			reset => reset,
 			PS2clk	=> PS2_keyboard_clk,
 			PS2Data	=> PS2_keyboard_Data,
-			err	=> error,
 			keyClk => keyClk,
-			ascii => ascii
+			ascii => ascii,
+			scancode => scancode
 			);
 
 --    m1 : KeyboardSimulator port map(
@@ -185,11 +204,10 @@ begin
         mousey        => mousey,
         error_no_ack  => error_no_ack,
         mouse_pos => mouse_pos,
-        err	=> error,
 		keyClk	=> keyClk,
 		ascii => ascii_int,
         x_pos         => x_pos,
-        y_pos         => y_pos,  
+        y_pos         => y_pos,
         sel_begin => sel_begin,
 		sel_end => sel_end,
         sel_mode => sel_mode,

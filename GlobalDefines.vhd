@@ -19,7 +19,7 @@ package GlobalDefines is
         format : integer range 0 to 7;
         id : integer;
     end record;
-    
+
     type SelMode is (NO, BEGIN_SEL, END_SEL);
 
     constant BOUND  : integer := 100;

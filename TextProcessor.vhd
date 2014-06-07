@@ -15,7 +15,6 @@ entity TextProcessor is
         error_no_ack  : in     std_logic;
         mouse_pos : 	in CharPos;
         --keyboard in
-		err			:	in std_logic;
 		keyClk		:	in	std_logic;
 		ascii		:	in ASCII;
         --vga in
@@ -128,7 +127,7 @@ begin
 					elsif y_pos >= Button_Color_Y_START and y_pos < Button_Color_Y_END then
 						for I in 0 to ALL_COLOR'length - 1 loop
 							if x_pos >= Button_Color_X_Start + I * (Button_Color_X_Width+Button_Color_X_Dis) and
-								x_pos < Button_Color_X_Start + 
+								x_pos < Button_Color_X_Start +
 								I * (Button_Color_X_Width+Button_Color_X_Dis) + Button_Color_X_Width then
 								format_char.color <= ALL_COLOR(I);
 							end if;

@@ -125,7 +125,7 @@ begin
 			elsif y_pos >= Button_Color_Y_START and y_pos < Button_Color_Y_END then
 				for I in 0 to ALL_COLOR'length - 1 loop
 					if x_pos >= Button_Color_X_Start + I * (Button_Color_X_Width+Button_Color_X_Dis) and
-						x_pos < Button_Color_X_Start + 
+						x_pos < Button_Color_X_Start +
 						I * (Button_Color_X_Width+Button_Color_X_Dis) + Button_Color_X_Width then
 						rgb <= ALL_COLOR(I);
 					end if;
