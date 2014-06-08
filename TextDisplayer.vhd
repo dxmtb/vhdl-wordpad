@@ -8,11 +8,16 @@ entity TextDisplayer is
         clk_100            : in     std_logic;
         reset              : in     std_logic;
         --text information
-        ram_address			: out TxtRamPtr;
-        ram_data 			: in STD_LOGIC_VECTOR (15 DOWNTO 0);
-        txt_len				: in CharPos;
+        ram_address        : out    TxtRamPtr;
+        ram_data           : in     std_logic_vector (11 downto 0);
+        txt_len            : in     CharPos;
         cursor             : in     CharPos;
         sel_begin, sel_end : in     CharPos;
+        processor_status   : in     StatusProcessor;
+        first_char         : in     CharPos;
+        now_size           : in     CharSizeType;
+        now_font           : in     FontType;
+        now_color          : in     RGBColor;
         --mouse
         mousex             : in     XCoordinate;
         mousey             : in     YCoordinate;
@@ -29,28 +34,27 @@ entity TextDisplayer is
 end entity;  -- TextDisplayer
 
 architecture arch of TextDisplayer is
-    signal button : std_logic;
-    signal clk    : std_logic;
+    signal clk : std_logic;
 
-    shared variable current_char_pos, left_char : CharPos;
+    shared variable current_char_pos, left_char : CharPos := 0;
     signal current_char                         : Char;
     signal U, D, row                            : YCoordinate;
     signal L, R                                 : XCoordinate;
-    signal first_char                           : CharPos := 0;
     signal flash_counter                        : integer range 0 to 127;
     signal show_cursor                          : std_logic;
 
 begin
-    clk          <= clk_100;
-    current_char <= raw2char(ram_data);
-    R            <= L + getWidth(current_char);
-    D            <= U + 16;
+    clk <= clk_100;
+    R   <= L + getWidth(current_char);
+    D   <= U + 16;
     rom_address <= std_logic_vector(to_unsigned(SizeShift(current_char.size) + (FontShift(current_char.font)*128+current_char.code)*SizeToPixel(current_char.size)
                                                 +row-U, CharRomPtr'length));
     show_cursor <= '1' when flash_counter < 64 else '0';
 
+    current_char <= raw2char(ram_data);
+    ram_address  <= std_logic_vector(to_unsigned(current_char_pos, TxtRamPtr'length));
+
     process(clk, reset)
-        --variable tmp_pos : CharPos;
     begin
         if reset = '0' then
             current_char_pos := MAX_TEXT_LEN-1;
@@ -116,13 +120,29 @@ begin
             if y_pos >= Button_Font_Size_Y_START and y_pos < Button_Font_Size_Y_END then
                 --Font and Size
                 if x_pos >= Button_Small_X_Start and x_pos < Button_Small_X_End then
-                    rgb <= COLOR_RED;
+                    if now_size = SMALL then
+                        rgb <= COLOR_RED;
+                    else
+                        rgb <= COLOR_BLACK;
+                    end if;
                 elsif x_pos >= Button_Big_X_Start and x_pos < Button_Big_X_End then
-                    rgb <= COLOR_RED;
+                    if now_size = BIG then
+                        rgb <= COLOR_RED;
+                    else
+                        rgb <= COLOR_BLACK;
+                    end if;
                 elsif x_pos >= Button_Font1_X_Start and x_pos < Button_Font1_X_End then
-                    rgb <= COLOR_RED;
+                    if now_font = FONT1 then
+                        rgb <= COLOR_RED;
+                    else
+                        rgb <= COLOR_BLACK;
+                    end if;
                 elsif x_pos >= Button_Font2_X_Start and x_pos < Button_Font2_X_End then
-                    rgb <= COLOR_RED;
+                    if now_font = FONT2 then
+                        rgb <= COLOR_RED;
+                    else
+                        rgb <= COLOR_BLACK;
+                    end if;
                 end if;
             elsif y_pos >= Button_Color_Y_START and y_pos < Button_Color_Y_END then
                 for I in 0 to ALL_COLOR'length - 1 loop
@@ -132,8 +152,28 @@ begin
                         rgb <= ALL_COLOR(I);
                     end if;
                 end loop;
+                if x_pos >= 550 and x_pos < 580 then
+                    rgb <= now_color;
+                elsif x_pos >= 600 and x_pos < 630 then
+                    case processor_status is
+                        when Waiting =>
+                            rgb <= COLOR_BLACK;
+                        when Waiting2 =>
+                            rgb <= COLOR_BLACK;
+                        when Insert =>
+                            rgb <= COLOR_RED;
+                        when Del =>
+                            rgb <= COLOR_GREEN;
+                        when ResetStatus =>
+                            rgb <= COLOR_YELLOW;
+                        when SetFont =>
+                            rgb <= COLOR_PURPLE;
+                        when SetFontEnter =>
+                            rgb <= COLOR_CYAN;
+                    end case;
+                end if;
             end if;
-        elsif show_cursor = '1' and current_char_pos = cursor and (x_pos = L or x_pos = L + 1) then  --draw cursor
+        elsif show_cursor = '1' and current_char_pos = cursor and (x_pos = L or x_pos = L + 1) and current_char_pos < txt_len then  --draw cursor
             rgb <= COLOR_BLACK;
         elsif current_char_pos < txt_len and x_pos - L < getWidth(current_char) then  --draw char
             if rom_data(x_pos-L) = '0' then
@@ -143,8 +183,7 @@ begin
                     rgb <= COLOR_WHITE;
                 end if;
             else
-                --rgb <= current_char.color;
-                rgb <= COLOR_GREEN;
+                rgb <= current_char.color;
             end if;
         else
             rgb <= COLOR_WHITE;

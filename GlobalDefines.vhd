@@ -6,7 +6,9 @@ package GlobalDefines is
 
     subtype ASCII is integer range 0 to 127;
 
-    type SelMode is (NO, BEGIN_SEL, END_SEL);
+    type StatusProcessor is (Waiting, Waiting2, Insert, Del, ResetStatus, SetFont, SetFontEnter);
+
+    constant HOLD_TIME : integer := 100;
 
     constant BOUND      : integer := 100;
     constant VGA_HEIGHT : integer := 480;
@@ -76,10 +78,10 @@ package GlobalDefines is
     type     FontTypeIndexedArray is array (FontType range Font1 to Font2) of integer;
     constant FontShift : FontTypeIndexedArray := (0, 1);
 
-    constant MAX_TEXT_LEN : integer := 126;
-    subtype  CharCode is integer range 0 to MAX_TEXT_LEN-1;
-    
-    subtype ShortInt is STD_LOGIC_VECTOR (15 DOWNTO 0);
+    constant MAX_TEXT_LEN : integer := 2047;
+    subtype  CharCode is integer range 0 to 127;
+
+    subtype RamData is std_logic_vector (11 downto 0);
 
     type Char is record
         code  : CharCode;
@@ -88,7 +90,7 @@ package GlobalDefines is
         color : RGBColor;
     end record;
 
-    subtype CharPos is integer range 0 to MAX_TEXT_LEN;
+    subtype CharPos is integer range -1 to MAX_TEXT_LEN;
     type    CharSeqT is array (0 to MAX_TEXT_LEN-1) of Char;
     type    TextArea is record
         len : CharPos;
@@ -96,11 +98,11 @@ package GlobalDefines is
     end record;
 
     subtype CharRomPtr is std_logic_vector (12 downto 0);
-    subtype TxtRamPtr is STD_LOGIC_VECTOR (10 DOWNTO 0);
-    function memAddr(ch  : Char; y : YCoordinate) return CharRomPtr;
-    function getWidth(ch : Char) return XCoordinate;
-    function raw2char(data : ShortInt) return Char;
-    function char2raw(ch : Char) return ShortInt;
+    subtype TxtRamPtr is std_logic_vector (10 downto 0);
+    function memAddr(ch    : Char; y : YCoordinate) return CharRomPtr;
+    function getWidth(ch   : Char) return XCoordinate;
+    function raw2char(data : RamData) return Char;
+    function char2raw(ch   : Char) return RamData;
 end package;
 
 package body GlobalDefines is
@@ -112,43 +114,43 @@ package body GlobalDefines is
     begin
         return SizeToPixel(ch.size);
     end function;
-    function raw2char(data : ShortInt) return Char is
-	variable ret : Char;
-	begin
-		ret.code := to_integer(unsigned(data(6 downto 0)));
-		if data(7) = '0' then
-			ret.size := SMALL;
-		else
-			ret.size := BIG;
-		end if;
-		if data(8) = '0' then
-			ret.font := FONT1;
-		else
-			ret.font := FONT2;
-		end if;	
-		ret.color(Blue) := data(9);
-		ret.color(Green) := data(10);
-		ret.color(Red) := data(11);
-		return ret;	
-	end function;
-    function char2raw(ch : Char) return ShortInt is
-	variable data : STD_LOGIC_VECTOR (15 DOWNTO 0);
-	variable tmp : std_logic_vector(6 downto 0);
-	begin
-		data(6 downto 0) := std_logic_vector(to_unsigned(ch.code, 7));
-		if ch.size = SMALL then
-			data(7) := '0';
-		else
-			data(7) := '1';
-		end if;
-		if ch.font = FONT1 then
-			data(8) := '0';
-		else
-			data(8) := '1';
-		end if;	
-		data(9) := ch.color(Blue);
-		data(10) := ch.color(Green);
-		data(11) := ch.color(Red);	
-		return data;
-	end function;
+    function raw2char(data : RamData) return Char is
+        variable ret : Char;
+    begin
+        ret.code := to_integer(unsigned(data(6 downto 0)));
+        if data(7) = '0' then
+            ret.size := SMALL;
+        else
+            ret.size := BIG;
+        end if;
+        if data(8) = '0' then
+            ret.font := FONT1;
+        else
+            ret.font := FONT2;
+        end if;
+        ret.color(Blue)  := data(9);
+        ret.color(Green) := data(10);
+        ret.color(Red)   := data(11);
+        return ret;
+    end function;
+    function char2raw(ch : Char) return RamData is
+        variable data : RamData;
+        variable tmp  : std_logic_vector(6 downto 0);
+    begin
+        data(6 downto 0) := std_logic_vector(to_unsigned(ch.code, 7));
+        if ch.size = SMALL then
+            data(7) := '0';
+        else
+            data(7) := '1';
+        end if;
+        if ch.font = FONT1 then
+            data(8) := '0';
+        else
+            data(8) := '1';
+        end if;
+        data(9)  := ch.color(Blue);
+        data(10) := ch.color(Green);
+        data(11) := ch.color(Red);
+        return data;
+    end function;
 end GlobalDefines;
