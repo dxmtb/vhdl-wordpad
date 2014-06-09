@@ -127,6 +127,10 @@ begin
                                             status                  <= SetFontEnter;
                                         end if;
                                         now_font <= FONT2;
+                                    elsif mousex >= Button_Save_X_Start and mousex < Button_Save_X_End then
+                                        status <= SaveFile;
+                                    elsif mousex >= Button_Open_X_Start and mousex < Button_Open_X_End then
+                                        status <= OpenFile;
                                     end if;
                                 elsif mousey >= Button_Color_Y_START and mousey < Button_Color_Y_END then
                                     for I in 0 to ALL_COLOR'length - 1 loop
@@ -318,6 +322,10 @@ begin
                                 hold      <= HOLD_TIME;
                             end if;
                         end if;
+                    when SaveFile =>
+                        null;
+                    when LoadFile =>
+                        null;
                 end case;
             end if;
         end if;

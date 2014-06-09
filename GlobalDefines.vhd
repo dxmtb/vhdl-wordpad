@@ -6,7 +6,7 @@ package GlobalDefines is
 
     subtype ASCII is integer range 0 to 127;
 
-    type StatusProcessor is (Waiting, Waiting2, Insert, Del, ResetStatus, SetFont, SetFontEnter);
+    type StatusProcessor is (Waiting, Waiting2, Insert, Del, ResetStatus, SetFont, SetFontEnter, SaveFile, OpenFile);
 
     constant HOLD_TIME : integer := 100;
 
