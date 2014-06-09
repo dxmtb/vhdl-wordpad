@@ -31,7 +31,7 @@ entity TextDisplayer is
         rom_address        : out    CharRomPtr;
         rom_data           : in     std_logic_vector (0 to 15);
         button_addr        : out    std_logic_vector (7 downto 0);
-        button_data        : in     std_logic_vector (34 downto 0)
+        button_data        : in     std_logic_vector (0 to 34)
         );
 end entity;  -- TextDisplayer
 
@@ -45,6 +45,7 @@ architecture arch of TextDisplayer is
     signal flash_counter                        : integer range 0 to 127;
     signal show_cursor                          : std_logic;
     signal button_addr_int                      : integer;
+    signal cursor_drawn                         : integer;
 
 begin
     clk <= clk_100;
@@ -112,119 +113,144 @@ begin
         end if;
     end process;
 
-
-    process(x_pos, y_pos, rom_data, L, current_char)
+    process(clk)
     begin
-        if error_no_ack = '0' and ((x_pos = mousex and y_pos >= mousey-5 and y_pos     <= mousey+5) or
-                                   (y_pos = mousey-5 and x_pos >= mousex - 1 and x_pos <= mousex + 1) or
-                                   (y_pos = mousey+5 and x_pos >= mousex - 1 and x_pos <= mousex + 1)) then  --draw mouse
-            rgb <= COLOR_BLACK;
-        elsif y_pos < BOUND then        --draw buttons
-            rgb <= COLOR_BLUE;
-            if y_pos >= Button_Font_Size_Y_START and y_pos < Button_Font_Size_Y_END then
-                --Font and Size
-                if x_pos >= Button_Small_X_Start and x_pos < Button_Small_X_End then
-                    button_addr_int <= y_pos-Button_Font_Size_Y_START;
-                    if button_data(x_pos-Button_Small_X_Start) = '1' then
-                        if now_size = SMALL then
-                            rgb <= COLOR_RED;
-                        else
-                            rgb <= COLOR_BLACK;
-                        end if;
-                    else
-                        rgb <= COLOR_WHITE;
-                    end if;
-                elsif x_pos >= Button_Big_X_Start and x_pos < Button_Big_X_End then
-                    button_addr_int <= 35+y_pos-Button_Font_Size_Y_START;
-                    if button_data(x_pos-Button_Big_X_Start) = '1' then
-                        if now_size = BIG then
-                            rgb <= COLOR_RED;
-                        else
-                            rgb <= COLOR_BLACK;
-                        end if;
-                    else
-                        rgb <= COLOR_WHITE;
-                    end if;
-                elsif x_pos >= Button_Font1_X_Start and x_pos < Button_Font1_X_End then
-                    button_addr_int <= 70+y_pos-Button_Font_Size_Y_START;
-                    if button_data(x_pos-Button_Font1_X_Start) = '1' then
-                        if now_font = FONT1 then
-                            rgb <= COLOR_RED;
-                        else
-                            rgb <= COLOR_BLACK;
-                        end if;
-                    else
-                        rgb <= COLOR_WHITE;
-                    end if;
-                elsif x_pos >= Button_Font2_X_Start and x_pos < Button_Font2_X_End then
-                    button_addr_int <= 105+y_pos-Button_Font_Size_Y_START;
-                    if button_data(x_pos-Button_Font2_X_Start) = '1' then
-                        if now_font = FONT2 then
-                            rgb <= COLOR_RED;
-                        else
-                            rgb <= COLOR_BLACK;
-                        end if;
-                    else
-                        rgb <= COLOR_WHITE;
-                    end if;
-                elsif x_pos >= Button_Save_X_Start and x_pos < Button_Save_X_End then
-                    button_addr_int <= 140+y_pos-Button_Font_Size_Y_START;
-                    if button_data(x_pos-Button_Save_X_Start) = '1' then
-                        rgb <= COLOR_BLACK;
-                    else
-                        rgb <= COLOR_WHITE;
-                    end if;
-                elsif x_pos >= Button_Open_X_Start and x_pos < Button_Open_X_End then
-                    button_addr_int <= 175+y_pos-Button_Font_Size_Y_START;
-                    if button_data(x_pos-Button_Open_X_Start) = '1' then
-                        rgb <= COLOR_BLACK;
-                    else
-                        rgb <= COLOR_WHITE;
-                    end if;
-                end if;
-            elsif y_pos >= Button_Color_Y_START and y_pos < Button_Color_Y_END then
-                for I in 0 to ALL_COLOR'length - 1 loop
-                    if x_pos >= Button_Color_X_Start + I * (Button_Color_X_Width+Button_Color_X_Dis) and
-                        x_pos < Button_Color_X_Start +
-                        I * (Button_Color_X_Width+Button_Color_X_Dis) + Button_Color_X_Width then
-                        rgb <= ALL_COLOR(I);
-                    end if;
-                end loop;
-                if x_pos >= 550 and x_pos < 580 then
-                    rgb <= now_color;
-                elsif x_pos >= 600 and x_pos < 630 then
-                    case processor_status is
-                        when Waiting =>
-                            rgb <= COLOR_BLACK;
-                        when Waiting2 =>
-                            rgb <= COLOR_BLACK;
-                        when Insert =>
-                            rgb <= COLOR_RED;
-                        when Del =>
-                            rgb <= COLOR_GREEN;
-                        when ResetStatus =>
-                            rgb <= COLOR_YELLOW;
-                        when SetFont =>
-                            rgb <= COLOR_PURPLE;
-                        when SetFontEnter =>
-                            rgb <= COLOR_CYAN;
-                    end case;
+        if clk'event and clk = '1' then
+            if y_pos >= Button_Font_Size_Y_START-1 and y_pos < Button_Font_Size_Y_END-1 then
+                if x_pos = 0 then
+                    button_addr_int <= y_pos+1-Button_Font_Size_Y_START;
                 end if;
             end if;
-        elsif show_cursor = '1' and current_char_pos = cursor and (x_pos = L or x_pos = L + 1) and current_char_pos < txt_len then  --draw cursor
-            rgb <= COLOR_BLACK;
-        elsif current_char_pos < txt_len and x_pos - L < getWidth(current_char) then  --draw char
-            if rom_data(x_pos-L) = '0' then
-                if current_char_pos >= sel_begin and current_char_pos < sel_end then
-                    rgb <= COLOR_BLACK;
+            if y_pos >= Button_Font_Size_Y_START and y_pos < Button_Font_Size_Y_END then
+                if x_pos = Button_Small_X_End then
+                    button_addr_int <= 35+y_pos-Button_Font_Size_Y_START;
+                elsif x_pos = Button_Big_X_End then
+                    button_addr_int <= 70+y_pos-Button_Font_Size_Y_START;
+                elsif x_pos = Button_Font1_X_End then
+                    button_addr_int <= 105+y_pos-Button_Font_Size_Y_START;
+                elsif x_pos = Button_Font2_X_End then
+                    button_addr_int <= 140+y_pos-Button_Font_Size_Y_START;
+                elsif x_pos = Button_Save_X_End then
+                    button_addr_int <= 175+y_pos-Button_Font_Size_Y_START;
+                end if;
+            end if;
+        end if;
+    end process;
+
+    process(clk)  --x_pos, y_pos, rom_data, L, current_char)
+    begin
+        if clk'event and clk = '1' then
+            if x_pos = 0 then
+                cursor_drawn <= 7;
+            end if;
+            if error_no_ack = '0' and ((x_pos = mousex and y_pos >= mousey-5 and y_pos     <= mousey+5) or
+                                       (y_pos = mousey-5 and x_pos >= mousex - 1 and x_pos <= mousex + 1) or
+                                       (y_pos = mousey+5 and x_pos >= mousex - 1 and x_pos <= mousex + 1)) then  --draw mouse
+                rgb <= COLOR_BLACK;
+            elsif y_pos < BOUND then    --draw buttons
+                rgb <= COLOR_BLUE;
+                if y_pos >= Button_Font_Size_Y_START and y_pos < Button_Font_Size_Y_END then
+                                        --Font and Size
+                    if x_pos >= Button_Small_X_Start and x_pos < Button_Small_X_End then
+                        if button_data(x_pos-Button_Small_X_Start) = '1' then
+                            if now_size = SMALL then
+                                rgb <= COLOR_RED;
+                            else
+                                rgb <= COLOR_BLACK;
+                            end if;
+                        else
+                            rgb <= COLOR_WHITE;
+                        end if;
+                    elsif x_pos >= Button_Big_X_Start and x_pos < Button_Big_X_End then
+                        if button_data(x_pos-Button_Big_X_Start) = '1' then
+                            if now_size = BIG then
+                                rgb <= COLOR_RED;
+                            else
+                                rgb <= COLOR_BLACK;
+                            end if;
+                        else
+                            rgb <= COLOR_WHITE;
+                        end if;
+                    elsif x_pos >= Button_Font1_X_Start and x_pos < Button_Font1_X_End then
+                        if button_data(x_pos-Button_Font1_X_Start) = '1' then
+                            if now_font = FONT1 then
+                                rgb <= COLOR_RED;
+                            else
+                                rgb <= COLOR_BLACK;
+                            end if;
+                        else
+                            rgb <= COLOR_WHITE;
+                        end if;
+                    elsif x_pos >= Button_Font2_X_Start and x_pos < Button_Font2_X_End then
+                        if button_data(x_pos-Button_Font2_X_Start) = '1' then
+                            if now_font = FONT2 then
+                                rgb <= COLOR_RED;
+                            else
+                                rgb <= COLOR_BLACK;
+                            end if;
+                        else
+                            rgb <= COLOR_WHITE;
+                        end if;
+                    elsif x_pos >= Button_Save_X_Start and x_pos < Button_Save_X_End then
+                        if button_data(x_pos-Button_Save_X_Start) = '1' then
+                            rgb <= COLOR_BLACK;
+                        else
+                            rgb <= COLOR_WHITE;
+                        end if;
+                    elsif x_pos >= Button_Open_X_Start and x_pos < Button_Open_X_End then
+                        if button_data(x_pos-Button_Open_X_Start) = '1' then
+                            rgb <= COLOR_BLACK;
+                        else
+                            rgb <= COLOR_WHITE;
+                        end if;
+                    end if;
+                elsif y_pos >= Button_Color_Y_START and y_pos < Button_Color_Y_END then
+                    for I in 0 to ALL_COLOR'length - 1 loop
+                        if x_pos >= Button_Color_X_Start + I * (Button_Color_X_Width+Button_Color_X_Dis) and
+                            x_pos < Button_Color_X_Start +
+                            I * (Button_Color_X_Width+Button_Color_X_Dis) + Button_Color_X_Width then
+                            rgb <= ALL_COLOR(I);
+                        end if;
+                    end loop;
+                    if x_pos >= 550 and x_pos < 580 then
+                        rgb <= now_color;
+                    elsif x_pos >= 600 and x_pos < 630 then
+                        case processor_status is
+                            when Waiting =>
+                                rgb <= COLOR_BLACK;
+                            when Waiting2 =>
+                                rgb <= COLOR_BLACK;
+                            when Insert =>
+                                rgb <= COLOR_RED;
+                            when Del =>
+                                rgb <= COLOR_GREEN;
+                            when ResetStatus =>
+                                rgb <= COLOR_YELLOW;
+                            when SetFont =>
+                                rgb <= COLOR_PURPLE;
+                            when SetFontEnter =>
+                                rgb <= COLOR_CYAN;
+                            when others =>
+                                rgb <= COLOR_WHITE;
+                        end case;
+                    end if;
+                end if;
+            elsif show_cursor = '1' and current_char_pos = cursor and (x_pos = L or x_pos = L + 1) and current_char_pos < txt_len and cursor_drawn > 0 then  --draw cursor
+                rgb          <= COLOR_BLACK;
+                cursor_drawn <= cursor_drawn-1;
+            elsif current_char_pos < txt_len and x_pos - L < getWidth(current_char) then  --draw char
+                if rom_data(x_pos-L) = '0' then
+                    if current_char_pos >= sel_begin and current_char_pos < sel_end then
+                        rgb <= COLOR_BLACK;
+                    else
+                        rgb <= COLOR_WHITE;
+                    end if;
                 else
-                    rgb <= COLOR_WHITE;
+                    rgb <= current_char.color;
                 end if;
             else
-                rgb <= current_char.color;
+                rgb <= COLOR_WHITE;
             end if;
-        else
-            rgb <= COLOR_WHITE;
         end if;
     end process;
 

@@ -24,14 +24,19 @@ package GlobalDefines is
     constant Button_Color_Y_END   : integer := 90;
 
     constant Button_Small_X_Start : integer := 10;
-    constant Button_Small_X_End   : integer := 60;
+    constant Button_Small_X_End   : integer := 45;
     constant Button_Big_X_Start   : integer := 80;
-    constant Button_Big_X_End     : integer := 130;
+    constant Button_Big_X_End     : integer := 115;
 
     constant Button_Font1_X_Start : integer := 150;
-    constant Button_Font1_X_End   : integer := 200;
+    constant Button_Font1_X_End   : integer := 185;
     constant Button_Font2_X_Start : integer := 220;
-    constant Button_Font2_X_End   : integer := 270;
+    constant Button_Font2_X_End   : integer := 255;
+
+    constant Button_Save_X_Start : integer := 290;
+    constant Button_Save_X_End   : integer := 325;
+    constant Button_Open_X_Start : integer := 360;
+    constant Button_Open_X_End   : integer := 395;
 
     constant Button_Color_X_Start : integer := 10;
     constant Button_Color_X_Width : integer := 30;

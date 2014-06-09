@@ -323,9 +323,9 @@ begin
                             end if;
                         end if;
                     when SaveFile =>
-                        null;
-                    when LoadFile =>
-                        null;
+                        status <= Waiting;
+                    when OpenFile =>
+                        status <= Waiting;
                 end case;
             end if;
         end if;
