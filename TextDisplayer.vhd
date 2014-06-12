@@ -31,7 +31,8 @@ entity TextDisplayer is
         rom_address        : out    CharRomPtr;
         rom_data           : in     std_logic_vector (0 to 15);
         button_addr        : out    std_logic_vector (7 downto 0);
-        button_data        : in     std_logic_vector (0 to 34)
+        button_data        : in     std_logic_vector (0 to 34);
+        font3 : in boolean
         );
 end entity;  -- TextDisplayer
 
@@ -51,13 +52,24 @@ begin
     clk <= clk_100;
     R   <= L + getWidth(current_char);
     D   <= U + 16;
-    rom_address <= std_logic_vector(to_unsigned(SizeShift(current_char.size) + (FontShift(current_char.font)*128+current_char.code)*SizeToPixel(current_char.size)
-                                                +row-U, CharRomPtr'length));
+
     show_cursor <= '1' when flash_counter < 64 else '0';
 
     current_char <= raw2char(ram_data);
     ram_address  <= std_logic_vector(to_unsigned(current_char_pos, TxtRamPtr'length));
     button_addr  <= std_logic_vector(to_unsigned(button_addr_int, button_addr'length));
+
+    process(clk)
+	begin
+		if not font3 then
+			rom_address <= std_logic_vector(to_unsigned(SizeShift(current_char.size)
+						+ (FontShift(current_char.font)*128+current_char.code)*
+						SizeToPixel(current_char.size)+row-U, CharRomPtr'length));
+		else
+			rom_address <= std_logic_vector(to_unsigned(7680 + current_char.code*16+
+						row-U, CharRomPtr'length));
+		end if;
+	end process;
 
     process(clk, reset)
     begin
@@ -173,7 +185,7 @@ begin
                         end if;
                     elsif x_pos >= Button_Font1_X_Start and x_pos < Button_Font1_X_End then
                         if button_data(x_pos-Button_Font1_X_Start) = '1' then
-                            if now_font = FONT1 then
+                            if not font3 and now_font = FONT1 then
                                 rgb <= COLOR_RED;
                             else
                                 rgb <= COLOR_BLACK;
@@ -183,7 +195,7 @@ begin
                         end if;
                     elsif x_pos >= Button_Font2_X_Start and x_pos < Button_Font2_X_End then
                         if button_data(x_pos-Button_Font2_X_Start) = '1' then
-                            if now_font = FONT2 then
+                            if not font3 and now_font = FONT2 then
                                 rgb <= COLOR_RED;
                             else
                                 rgb <= COLOR_BLACK;
@@ -191,6 +203,12 @@ begin
                         else
                             rgb <= COLOR_WHITE;
                         end if;
+					elsif x_pos >= Button_Font3_X_Start and x_pos < Button_Font3_X_End then
+						if font3 then
+							rgb <= COLOR_RED;
+						else
+							rgb <= COLOR_BLUE;
+						end if;
                     elsif x_pos >= Button_Save_X_Start and x_pos < Button_Save_X_End then
                         if button_data(x_pos-Button_Save_X_Start) = '1' then
                             rgb <= COLOR_BLACK;

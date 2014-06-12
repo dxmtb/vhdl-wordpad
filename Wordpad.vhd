@@ -96,7 +96,8 @@ architecture arch of Wordpad is
             data_b             : out    std_logic_vector (11 downto 0);
             wren_b             : buffer std_logic := '0';
             q_b                : in     std_logic_vector (11 downto 0);
-            seg6, seg_7        : out    std_logic_vector(6 downto 0)
+            seg6, seg_7        : out    std_logic_vector(6 downto 0);
+            font3 : out boolean := false
             );
     end component;
 
@@ -128,7 +129,8 @@ architecture arch of Wordpad is
             rom_address        : out    CharRomPtr;
             rom_data           : in     std_logic_vector (0 to 15);
             button_addr        : out    std_logic_vector (7 downto 0);
-            button_data        : in     std_logic_vector (0 to 34)
+            button_data        : in     std_logic_vector (0 to 34);
+            font3 : in boolean
             );
     end component;
 
@@ -197,6 +199,7 @@ architecture arch of Wordpad is
 
     signal button_addr : std_logic_vector (7 downto 0);
     signal button_data : std_logic_vector (34 downto 0);
+    signal font3 : boolean;
 begin
 --u0: Keyboard port map(PS2_keyboard_Data,PS2_keyboard_clk,Clock100M_FPGAE,reset,scancode);
     u1 : seg7 port map(ascii(3 downto 0), seg0);        --show keyboard
@@ -264,7 +267,8 @@ begin
         now_font         => now_font,
         now_color        => now_color,
         seg6             => seg6,
-        seg_7            => seg_7
+        seg_7            => seg_7,
+        font3 => font3
         );
 
     m4 : TextDisplayer port map(
@@ -295,7 +299,8 @@ begin
         now_font         => now_font,
         now_color        => now_color,
         button_addr      => button_addr,
-        button_data      => button_data
+        button_data      => button_data,
+        font3 => font3
         );
 
     m5 : VGADisplayer port map(

@@ -38,6 +38,9 @@ package GlobalDefines is
     constant Button_Open_X_Start : integer := 360;
     constant Button_Open_X_End   : integer := 395;
 
+    constant Button_Font3_X_Start : integer := 430;
+    constant Button_Font3_X_End   : integer := 465;
+
     constant Button_Color_X_Start : integer := 10;
     constant Button_Color_X_Width : integer := 30;
     constant Button_Color_X_Dis   : integer := 15;
@@ -102,7 +105,7 @@ package GlobalDefines is
         str : CharSeqT;
     end record;
 
-    subtype CharRomPtr is std_logic_vector (12 downto 0);
+    subtype CharRomPtr is std_logic_vector (13 downto 0);
     subtype TxtRamPtr is std_logic_vector (10 downto 0);
     function memAddr(ch    : Char; y : YCoordinate) return CharRomPtr;
     function getWidth(ch   : Char) return XCoordinate;

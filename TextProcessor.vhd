@@ -32,7 +32,8 @@ entity TextProcessor is
         data_b             : out    std_logic_vector (11 downto 0);
         wren_b             : buffer std_logic := '0';
         q_b                : in     std_logic_vector (11 downto 0);
-        seg6, seg_7        : out    std_logic_vector(6 downto 0)
+        seg6, seg_7        : out    std_logic_vector(6 downto 0);
+        font3 : out boolean
         );
 end entity;
 
@@ -120,6 +121,7 @@ begin
                                             status                  <= SetFontEnter;
                                         end if;
                                         now_font <= FONT1;
+                                        font3 <= false;
                                     elsif mousex >= Button_Font2_X_Start and mousex < Button_Font2_X_End then
                                         if flag_sel then
                                             mouse_event.format_type <= 1;
@@ -127,10 +129,13 @@ begin
                                             status                  <= SetFontEnter;
                                         end if;
                                         now_font <= FONT2;
+                                        font3 <= false;
                                     elsif mousex >= Button_Save_X_Start and mousex < Button_Save_X_End then
                                         status <= SaveFile;
                                     elsif mousex >= Button_Open_X_Start and mousex < Button_Open_X_End then
                                         status <= OpenFile;
+                                    elsif mousex >= Button_Font3_X_Start and mousex < Button_Font3_X_End then
+										font3 <= true;
                                     end if;
                                 elsif mousey >= Button_Color_Y_START and mousey < Button_Color_Y_END then
                                     for I in 0 to ALL_COLOR'length - 1 loop
