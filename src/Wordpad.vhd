@@ -1,3 +1,4 @@
+--Top level
 library ieee;
 use ieee.numeric_std.all;
 use ieee.std_logic_1164.all;
@@ -22,6 +23,7 @@ entity Wordpad is
         VGA_G : out std_logic_vector(2 downto 0);
         VGA_R : out std_logic_vector(2 downto 0);
 
+		--for debug
         seg0, seg1, seg2, seg3, seg4, seg5, seg6, seg_7 : out std_logic_vector(6 downto 0)
         ) ;
 end entity;  -- MasterController

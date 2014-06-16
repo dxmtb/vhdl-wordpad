@@ -6,10 +6,13 @@ package GlobalDefines is
 
     subtype ASCII is integer range 0 to 127;
 
+	--status of Text Processor
     type StatusProcessor is (Waiting, Waiting2, Insert, Del, ResetStatus, SetFont, SetFontEnter, SaveFile, OpenFile);
 
+	--hold time for each save or load of RAM
     constant HOLD_TIME : integer := 100;
 
+	--display information(size, button position)
     constant BOUND      : integer := 100;
     constant VGA_HEIGHT : integer := 480;
     constant VGA_WIDTH  : integer := 640;
@@ -61,6 +64,7 @@ package GlobalDefines is
     constant ALL_COLOR : ALL_COLOR_T :=
         (COLOR_BLACK, COLOR_GREEN, COLOR_CYAN, COLOR_RED, COLOR_PURPLE, COLOR_YELLOW);
 
+	--events caused by keyboard and mouse
     type EventType is (
         NONE,
         MOVE_CURSOR,
@@ -77,6 +81,7 @@ package GlobalDefines is
         format      : integer range 0 to ALL_COLOR_T'length - 1;
     end record;
 
+	--shift of RAM for each size
     type     CharSizeType is (Small, Big);
     type     CharSizeIndexedArray is array (CharSizeType range Small to Big) of integer;
     constant SizeToPixel : CharSizeIndexedArray := (14, 16);
@@ -114,6 +119,7 @@ package GlobalDefines is
 end package;
 
 package body GlobalDefines is
+	--get addr of a line of char display
     function memAddr(ch : Char; y : YCoordinate) return CharRomPtr is
     begin
         return std_logic_vector(to_unsigned(SizeShift(ch.size) + (FontShift(ch.font)*128+ch.code)*SizeToPixel(ch.size)+y, CharRomPtr'length));
@@ -122,6 +128,7 @@ package body GlobalDefines is
     begin
         return SizeToPixel(ch.size);
     end function;
+	--recovery record type for std_logic_vector
     function raw2char(data : RamData) return Char is
         variable ret : Char;
     begin
@@ -141,6 +148,7 @@ package body GlobalDefines is
         ret.color(Red)   := data(11);
         return ret;
     end function;
+	--std_logic_vector to Char
     function char2raw(ch : Char) return RamData is
         variable data : RamData;
         variable tmp  : std_logic_vector(6 downto 0);

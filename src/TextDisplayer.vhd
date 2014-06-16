@@ -1,3 +1,4 @@
+-- output color to VGA according to text content in RAM
 library ieee;
 use ieee.numeric_std.all;
 use ieee.std_logic_1164.all;
@@ -32,7 +33,7 @@ entity TextDisplayer is
         rom_data           : in     std_logic_vector (0 to 15);
         button_addr        : out    std_logic_vector (7 downto 0);
         button_data        : in     std_logic_vector (0 to 34);
-        font3 : in boolean
+        font3 : in boolean --emoji enable
         );
 end entity;  -- TextDisplayer
 
@@ -50,10 +51,10 @@ architecture arch of TextDisplayer is
 
 begin
     clk <= clk_100;
-    R   <= L + getWidth(current_char);
-    D   <= U + 16;
+    R   <= L + getWidth(current_char); --dynamic text width
+    D   <= U + 16; --fixed text height
 
-    show_cursor <= '1' when flash_counter < 64 else '0';
+    show_cursor <= '1' when flash_counter < 64 else '0'; --to "shine" cursor
 
     current_char <= raw2char(ram_data);
     ram_address  <= std_logic_vector(to_unsigned(current_char_pos, TxtRamPtr'length));
@@ -61,7 +62,7 @@ begin
 
     process(clk)
 	begin
-		if not font3 then
+		if not font3 then --emoji not enable, pixmap saved in ROM
 			rom_address <= std_logic_vector(to_unsigned(SizeShift(current_char.size)
 						+ (FontShift(current_char.font)*128+current_char.code)*
 						SizeToPixel(current_char.size)+row-U, CharRomPtr'length));
@@ -81,7 +82,7 @@ begin
             if x_pos < 640 and y_pos < 480 then
                 if y_pos >= BOUND then
                     if y_pos = BOUND and x_pos = 0 then
-                                        --init displayer
+                        --init displayer
                         U                <= BOUND;
                         row              <= BOUND;
                         L                <= 0;
@@ -90,16 +91,17 @@ begin
                         flash_counter    <= flash_counter + 1;
                     elsif y_pos = row then
                         if L /= R and x_pos >= R then
+							--display a new char
                             L <= R;
                             if current_char_pos < txt_len and current_char.code /= 13 then
                                 current_char_pos := current_char_pos + 1;
                             end if;
-                                        --right_char <= current_char_pos;
                         end if;
                     elsif y_pos = row + 1 then
+						--display a new line
                         row <= y_pos;   --assert y_pos = row + 1
                         L   <= 0;
-                        if y_pos < D then
+                        if y_pos < D then --the same line of char
                             current_char_pos := left_char;
                         else            --y_pos >= high new line of chars
                             U <= D;
@@ -119,6 +121,7 @@ begin
         if reset = '0' then
             mouse_pos <= 0;
         elsif clk'event and clk = '1' then
+			--update position of mouse in text area
             if x_pos = mousex and y_pos = mousey and current_char_pos /= txt_len then
                 mouse_pos <= current_char_pos;
             end if;
@@ -127,6 +130,7 @@ begin
 
     process(clk)
     begin
+		--set button_addr_int to get button image
         if clk'event and clk = '1' then
             if y_pos >= Button_Font_Size_Y_START-1 and y_pos < Button_Font_Size_Y_END-1 then
                 if x_pos = 0 then
@@ -149,6 +153,7 @@ begin
         end if;
     end process;
 
+	--draw button area and txt area
     process(clk)  --x_pos, y_pos, rom_data, L, current_char)
     begin
         if clk'event and clk = '1' then
@@ -162,7 +167,7 @@ begin
             elsif y_pos < BOUND then    --draw buttons
                 rgb <= COLOR_BLUE;
                 if y_pos >= Button_Font_Size_Y_START and y_pos < Button_Font_Size_Y_END then
-                                        --Font and Size
+                    --Font and Size
                     if x_pos >= Button_Small_X_Start and x_pos < Button_Small_X_End then
                         if button_data(x_pos-Button_Small_X_Start) = '1' then
                             if now_size = SMALL then
@@ -230,9 +235,9 @@ begin
                             rgb <= ALL_COLOR(I);
                         end if;
                     end loop;
-                    if x_pos >= 550 and x_pos < 580 then
+                    if x_pos >= 550 and x_pos < 580 then --show current color
                         rgb <= now_color;
-                    elsif x_pos >= 600 and x_pos < 630 then
+                    elsif x_pos >= 600 and x_pos < 630 then --show TextProcessor status for debug
                         case processor_status is
                             when Waiting =>
                                 rgb <= COLOR_BLACK;
@@ -255,10 +260,10 @@ begin
                 end if;
             elsif show_cursor = '1' and current_char_pos = cursor and (x_pos = L or x_pos = L + 1) and current_char_pos < txt_len and cursor_drawn > 0 then  --draw cursor
                 rgb          <= COLOR_BLACK;
-                cursor_drawn <= cursor_drawn-1;
+                cursor_drawn <= cursor_drawn-1; --avoid multiple cursor in a line
             elsif current_char_pos < txt_len and x_pos - L < getWidth(current_char) then  --draw char
                 if rom_data(x_pos-L) = '0' then
-                    if current_char_pos >= sel_begin and current_char_pos < sel_end then
+                    if current_char_pos >= sel_begin and current_char_pos < sel_end then --draw selection
                         rgb <= COLOR_BLACK;
                     else
                         rgb <= COLOR_WHITE;

@@ -1,4 +1,5 @@
 -------------------------------------------------------------------------------------
+-- transform scancode to ASCII
 -------------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;
@@ -84,7 +85,7 @@ begin
 
                 if lastData(7 downto 0) = X"F0" then
                     if shifted and (data = X"12" or data = X"59") then
-                        shifted <= false;
+                        shifted <= false; --shift released
                     end if;
                     prepare <= '0';
                 elsif shifted then

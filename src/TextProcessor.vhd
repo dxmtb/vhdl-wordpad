@@ -1,3 +1,4 @@
+--modify text in RAM and edit status according to keyboard and mouse
 library ieee;
 use ieee.numeric_std.all;
 use ieee.std_logic_1164.all;
@@ -89,7 +90,6 @@ begin
             else
                 case status is
                     when Waiting =>
-
                         status <= Waiting2;
                         wren_b <= '0';
                         if lbutton = '1' then
@@ -102,6 +102,7 @@ begin
                                         --Font and Size
                                     if mousex >= Button_Small_X_Start and mousex < Button_Small_X_End then
                                         if flag_sel then
+											--a new mouse event, followings are the same
                                             mouse_event.format_type <= 0;
                                             mouse_event.format      <= 0;
                                             status                  <= SetFontEnter;
@@ -156,6 +157,7 @@ begin
                     when Waiting2 =>
                         status <= Waiting;
                         wren_b <= '0';
+						--handle keyboard event
                         case keyboard_event.e_type is
                             when INSERT_CHAR_AT_CURSOR =>
                                 txt_len        <= txt_len + 1;
@@ -164,14 +166,16 @@ begin
                                 tmp_char.font  := now_font;
                                 tmp_char.size  := now_size;
                                 tmp_char.color := now_color;
-                                if cursor < txt_len then
+                                if cursor < txt_len then --we need to move RAM
                                     status    <= Insert;
                                     step      <= txt_len - 1;  --read step write to step+1 dec
                                     tmp_pos   <= cursor;
                                     wren_b    <= '0';
                                     address_b <= std_logic_vector(to_unsigned(txt_len - 1, TxtRamPtr'length));
                                     hold      <= HOLD_TIME;
-                                else
+									--each time we read/write RAM, set hold to HOLD_TIME
+									--to make sure it stable
+                                else --insert directly
                                     wren_b    <= '1';
                                     address_b <= std_logic_vector(to_unsigned(txt_len, TxtRamPtr'length));
                                     data_b    <= char2raw(tmp_char);
@@ -179,7 +183,7 @@ begin
                                 end if;
                             when DELETE_AT_CURSOR =>
                                 if cursor > 0 then
-                                    if cursor < txt_len then
+                                    if cursor < txt_len then --move RAM
                                         step      <= cursor - 1;  --read step+1 write to step inc
                                         status    <= Del;
                                         wren_b    <= '0';
@@ -206,7 +210,7 @@ begin
                                     when others =>
                                         null;
                                 end case;
-                            when MOVE_FIRST =>
+                            when MOVE_FIRST => --move position of first char to display
                                 case keyboard_event.ascii is
                                     when 0 =>        -- plus 1
                                         if first_char + 30 < txt_len then
@@ -230,7 +234,7 @@ begin
                         if step >= txt_len then
                             wren_b <= '0';
                             status <= Waiting;
-                        else
+                        else --fill ram with char for debug
                             tmp_char.code  := (step+32) mod 128;
                             tmp_char.size  := BIG;
                             tmp_char.font  := FONT1;
@@ -242,18 +246,18 @@ begin
                             hold           <= HOLD_TIME;
                         end if;
                     when Insert =>
-                        if step = tmp_pos - 1 then
+                        if step = tmp_pos - 1 then --the last step, put the char to insert
                             wren_b    <= '1';
                             data_b    <= char2raw(tmp_char);
                             address_b <= std_logic_vector(to_unsigned(tmp_pos, TxtRamPtr'length));
                             hold      <= HOLD_TIME;
                             status    <= Waiting;
                         else
-                            if wren_b = '1' then
+                            if wren_b = '1' then --read char at position step
                                 wren_b    <= '0';
                                 address_b <= std_logic_vector(to_unsigned(step, TxtRamPtr'length));
                                 hold      <= HOLD_TIME;
-                            else
+                            else --write char to position step+1
                                 wren_b    <= '1';
                                 data_b    <= q_b;
                                 address_b <= std_logic_vector(to_unsigned(step_plus, TxtRamPtr'length));
@@ -266,11 +270,12 @@ begin
                             wren_b <= '0';
                             status <= Waiting;
                         else
+							--read step+1
                             if wren_b = '1' or to_integer(unsigned(address_b)) /= step+1 then
                                 wren_b    <= '0';
                                 address_b <= std_logic_vector(to_unsigned(step_plus, TxtRamPtr'length));
                                 hold      <= HOLD_TIME;
-                            else
+                            else --write to step
                                 wren_b    <= '1';
                                 address_b <= std_logic_vector(to_unsigned(step, TxtRamPtr'length));
                                 data_b    <= q_b;
@@ -278,22 +283,22 @@ begin
                                 hold      <= HOLD_TIME;
                             end if;
                         end if;
-                    when SetFontEnter =>
+                    when SetFontEnter => --init for set font
                         wren_b    <= '0';
                         address_b <= std_logic_vector(to_unsigned(sel_begin, TxtRamPtr'length));
                         step      <= sel_begin;
                         status    <= SetFont;
                         hold      <= HOLD_TIME;
                     when SetFont =>
-                        if step >= sel_end or step >= txt_len then
+                        if step >= sel_end or step >= txt_len then --out of range, quit
                             wren_b <= '0';
                             status <= Waiting;
                         else
-                            if wren_b = '1' then
+                            if wren_b = '1' then --read char at step
                                 wren_b    <= '0';
                                 address_b <= std_logic_vector(to_unsigned(step, TxtRamPtr'length));
                                 hold      <= HOLD_TIME;
-                            else
+                            else --set font according to mouse event
                                 data_b(6 downto 0) <= q_b(6 downto 0);
                                 if mouse_event.format_type = 0 then
                                     if mouse_event.format = 0 then
@@ -327,9 +332,9 @@ begin
                                 hold      <= HOLD_TIME;
                             end if;
                         end if;
-                    when SaveFile =>
+                    when SaveFile => --not implemented
                         status <= Waiting;
-                    when OpenFile =>
+                    when OpenFile => --not implemented
                         status <= Waiting;
                 end case;
             end if;
@@ -342,7 +347,8 @@ begin
             sel_begin <= 0;
             sel_end   <= 0;
         elsif clk'event and clk = '1' and mousey >= BOUND and mouse_pos < txt_len then
-            if rbutton = '1' then
+			--response to click in text area
+            if rbutton = '1' then --right button for selection
                 if rbutton_before = '0' then
                     sel_begin      <= mouse_pos;
                     sel_end        <= mouse_pos + 1;
@@ -366,7 +372,7 @@ begin
             keyboard_event.e_type <= NONE;
         elsif clk'event and clk = '1' then
             if keyClk = '1' and key_clk_before = '0' then
-                case ascii is
+                case ascii is --ascii to keyboard event
                     when 27 =>          --esc for left
                         keyboard_event.e_type <= MOVE_CURSOR;
                         keyboard_event.ascii  <= 1;
